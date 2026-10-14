@@ -18,17 +18,6 @@ class Character:
     def take_damage(self, amount):
         self.health = max(0, self.health - amount)
 
-# class Skill:
-
-#     def __init__(self, skill_id, skill_name, stamina_cost, weapon, damage):
-
-#         self.skill_id = skill_id
-#         self.skill_name = skill_name
-#         self.stamina_cost = stamina_cost
-#         self.weapon = weapon
-#         self.damage = damage
-
-
 
 Manu = Character(
     char_id = "pc_swordsman",

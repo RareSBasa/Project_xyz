@@ -12,7 +12,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Project Name TBD")
 font = pygame.font.SysFont(None, 70)
 
-(background, background_rect) = loading_assets.load_game_objects(width, height)
+(background, background_rect, Manu_img, Manu_img_rect) = loading_assets.load_game_objects(width, height)
 
 def draw_text(text, font, text_color, x, y):
     img = font.render(text, True, text_color)
@@ -20,12 +20,22 @@ def draw_text(text, font, text_color, x, y):
 
 def redraw():
     screen.fill(white)
-
-    screen.blit (background, background_rect)
+    screen.blit(background, background_rect)
+    screen.blit(Manu_img, Manu_img_rect)
 
 while True:
     clock.tick(60)
 
+    keys = pygame.key.get_pressed()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+
+
     redraw()
     pygame.display.flip()
-
