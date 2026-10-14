@@ -75,7 +75,11 @@ enemy_1 = Character(
     team = "Enemy",
     max_health = 80,
     max_stamina = 8,
-    position = (1, 5)
+    position = (1, 5),
+    skills = [
+        {"name": "Arrow_Shot", "type": "piercing", "stamina_cost": 5, "damage": 12, "range": 3},
+        {"name": "Precision_Shot", "type": "piercing", "stamina_cost": 10, "damage": 25, "range": 4}
+    ]
 )
 enemy_2 = Character(
     char_id = "en_swordsman",
@@ -83,7 +87,11 @@ enemy_2 = Character(
     team = "Enemy",
     max_health = 80,
     max_stamina = 8,
-    position = (2, 5)
+    position = (2, 5),
+    skills = [
+        {"name": "Arrow_Shot", "type": "piercing", "stamina_cost": 5, "damage": 12, "range": 3},
+        {"name": "Precision_Shot", "type": "piercing", "stamina_cost": 10, "damage": 25, "range": 4}
+    ]
 )
 
 print (Manu.skills)
