@@ -4,7 +4,7 @@ from pathlib import Path
 script_folder = Path(__file__).parent
 assets_folder = script_folder / "assets"
 
-def load_game_objects(width, height):
+def load_game_objects():
 
     background = pygame.image.load(assets_folder / "battle_map.png")
     background_rect = background.get_rect()
@@ -16,4 +16,5 @@ def load_game_objects(width, height):
     hori_rect = hori_asset.get_rect()
 
 
-    return (background, background_rect, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect)
+    return (background, background_rect, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect) 
+

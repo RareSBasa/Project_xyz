@@ -34,7 +34,6 @@ def grid_create():
 
     return grid
 
-
 def map_create():
     map_pos = []
     map = {}
@@ -47,4 +46,4 @@ def map_create():
     return map
 
 map = map_create()
-print (map)   
+grid = grid_create()
