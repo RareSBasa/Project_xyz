@@ -44,6 +44,20 @@ def load_hud_objects():
     stamina_bar_lines_rect.x = 159
     stamina_bar_lines_rect.y = 662
 
-
     return (icon_box, icon_box_rect, health_bar, health_bar_rect, health_bar_lines, health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina_bar_lines_rect)
 
+def get_char_boxes(character_number):
+    char_boxes = []
+    for i in range(0, character_number):
+        char_box = pygame.image.load(assets_folder / "char_box.png")
+        char_box_rect = char_box.get_rect()
+        char_box_rect.x = 1550
+        char_box_rect.y = (i * 165) + 15
+        char_boxes.append([char_box, char_box_rect])
+
+    return char_boxes
+
+
+
+
+char_boxes = get_char_boxes(5)

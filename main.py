@@ -22,10 +22,33 @@ _, _, _, _) = loading_assets.load_game_objects()
 (icon_box, icon_box_rect, health_bar, health_bar_rect, health_bar_lines,
 health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina_bar_lines_rect) = loading_assets.load_hud_objects()
 
+def draw_char_boxes(char_boxes):
+    for box in char_boxes:
+        screen.blit(box[0], box[1])
+
+def draw_char_box_bars(): # [[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width], [s_bar_x, s_bar_y, s_bar_height, s_bar_width, s_bar_max_width]]
+    red = (255, 0, 0)
+    yellow = (255, 255, 0)
+    bars = hud.get_bars()
+    for bar in bars:
+        h_bar_x = bar[0][0]
+        h_bar_y = bar[0][1]
+        h_bar_height = bar[0][2]
+        h_bar_width = bar[0][3]
+        s_bar_x = bar[1][0]
+        s_bar_y = bar[1][1]
+        s_bar_height = bar[1][2]
+        s_bar_width = bar[1][3]
+        pygame.draw.rect(screen, red, (h_bar_x, h_bar_y, h_bar_width, h_bar_height))
+        pygame.draw.rect(screen, yellow, (s_bar_x, s_bar_y, s_bar_width, s_bar_height))
 
 def draw_h_bar(x, y, bar_width, bar_height):
     red = (255, 0, 0)
     pygame.draw.rect(screen, red, (x, y, bar_width, bar_height))
+
+def draw_s_bar(x, y, bar_width, bar_height):
+    yellow = (255, 255, 0)
+    pygame.draw.rect(screen, yellow, (x, y, bar_width, bar_height))
 
 def draw_hud_1():
     screen.blit(icon_box, icon_box_rect)
@@ -47,6 +70,9 @@ def redraw():
         screen.blit(chars[0], chars[1])
     draw_hud_1()
     draw_h_bar(hud.h_bar_x, hud.h_bar_y, hud.h_bar_width, hud.h_bar_height)
+    draw_s_bar(hud.s_bar_x, hud.s_bar_y, hud.s_bar_width, hud.s_bar_height)
+    draw_char_boxes(loading_assets.char_boxes)
+    draw_char_box_bars()
     draw_hud_2()
 
 def try_things(): # Test things using this function
@@ -54,7 +80,8 @@ def try_things(): # Test things using this function
     character_add_on_map(characters_properties.Ion.char_id, characters_properties.Ion.pos, grid)
     character_add_on_map(characters_properties.Manu.char_id, characters_properties.Manu.pos, grid)
     character_add_on_map(characters_properties.Hori.char_id, characters_properties.Hori.pos, grid)
-    hud.h_bar_width = hud.set_width(48, 160)
+    hud.h_bar_width = hud.set_width(48, 160, hud.h_bar_max_width)
+    hud.s_bar_width = hud.set_width(6, 12, hud.s_bar_max_width)
     
 
 try_things()
