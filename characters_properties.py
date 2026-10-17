@@ -110,6 +110,7 @@ chars_id_and_rects = {
     # enemy_2.char_id: enemy_2
 }
 
+
 #print (Manu.skills)
 print (str(characters))
 print (str(characters["pc_swordsman"]))
