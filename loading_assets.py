@@ -18,7 +18,14 @@ def load_game_objects():
     hori_asset = pygame.image.load(assets_folder / "archer_placeholder.png")
     hori_rect = hori_asset.get_rect()
 
-    return (background, background_rect, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect) 
+    enemy_1_asset = pygame.image.load(assets_folder / "enemy_sm_placeholder.png")
+    enemy_1_rect = enemy_1_asset.get_rect()
+
+    enemy_2_asset = pygame.image.load(assets_folder / "enemy_sm_placeholder.png")
+    enemy_2_rect = enemy_2_asset.get_rect()
+
+    return (background, background_rect, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect, 
+            enemy_1_asset, enemy_1_rect, enemy_2_asset, enemy_2_rect) 
 
 def load_hud_objects():
 
@@ -56,8 +63,3 @@ def get_char_boxes(character_number):
         char_boxes.append([char_box, char_box_rect])
 
     return char_boxes
-
-
-
-
-char_boxes = get_char_boxes(5)

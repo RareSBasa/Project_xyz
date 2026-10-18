@@ -25,16 +25,18 @@ def get_bars(): # [[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width
     bars = []
     h_bar_max_width = 211
     s_bar_max_width = 211
-    index = 0
-    for keys in characters_properties.characters:
+    
+    for index, character in enumerate(characters_properties.characters.values()):       # made use of indexing for the hp and stamina bars to work for each individual character
+
         h_bar_x = 1560
         h_bar_y = 106 + (index * 165) 
         h_bar_height = 20
-        h_bar_width = set_width(characters_properties.characters[keys].health,characters_properties.characters[keys].max_health, h_bar_max_width)
+        h_bar_width = set_width(character.health, character.max_health, h_bar_max_width)
+
         s_bar_x = 1560
         s_bar_y = 136 + (index * 165)
         s_bar_height = 20
-        s_bar_width = set_width(characters_properties.characters[keys].stamina,characters_properties.characters[keys].max_stamina, s_bar_max_width)
+        s_bar_width = set_width(character.stamina, character.max_stamina, s_bar_max_width)
         bars.append([[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width], [s_bar_x, s_bar_y, s_bar_height, s_bar_width, s_bar_max_width]])
 
     return bars

@@ -1,7 +1,8 @@
 # All about the Characters and their behaviour 
 import loading_assets
 
-(_, _, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect) = loading_assets.load_game_objects()
+(_, _, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect,
+ enemy_1_asset, enemy_1_rect, enemy_2_asset, enemy_2_rect) = loading_assets.load_game_objects()
 
 class Character:
 
@@ -30,8 +31,8 @@ Manu = Character(
     max_stamina = 12,
     position = (1, 1),
     skills = [
-        {"name": "Thrust", "type": "piercing", "stamina_cost": 3, "damage": 10, "range": 1},
-        {"name": "Slash", "type": "slicing", "stamina_cost": 2, "damage": 3, "range": 1}
+        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
+        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
     ]
 
 )
@@ -43,8 +44,8 @@ Hori = Character(
     max_stamina = 14,
     position = (2, 1),
     skills = [
-        {"name": "Arrow_Shot", "type": "piercing", "stamina_cost": 5, "damage": 12, "range": 3},
-        {"name": "Precision_Shot", "type": "piercing", "stamina_cost": 10, "damage": 25, "range": 4}
+        {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
+        {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4}
     ]
 
 )
@@ -56,40 +57,42 @@ Ion = Character(
     max_stamina = 10,
     position = (3, 1),
     skills = [
-        {"name": "Thrust", "type": "piercing", "stamina_cost": 3, "damage": 10, "range": 2},
-        {"name": "Rod Boink", "type": "blunt", "stamina_cost": 4, "damage": 5, "range": 2}
+        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 2},
+        {"name": "Rod Boink", "stamina_cost": 4, "damage": 5, "range": 2}
     ]
 )
 
 enemy_1 = Character(
-    char_id = "en_swordsman",
+    char_id = "en_swordsman_1",
     name = "Marcus",
     team = "Enemy",
     max_health = 80,
     max_stamina = 8,
     position = (1, 5),
     skills = [
-        {"name": "Arrow_Shot", "type": "piercing", "stamina_cost": 5, "damage": 12, "range": 3},
-        {"name": "Precision_Shot", "type": "piercing", "stamina_cost": 10, "damage": 25, "range": 4}
+        {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
+        {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4}
     ]
 )
 enemy_2 = Character(
-    char_id = "en_swordsman",
+    char_id = "en_swordsman_2",
     name = "Marcus",
     team = "Enemy",
     max_health = 80,
     max_stamina = 8,
     position = (2, 5),
     skills = [
-        {"name": "Arrow_Shot", "type": "piercing", "stamina_cost": 5, "damage": 12, "range": 3},
-        {"name": "Precision_Shot", "type": "piercing", "stamina_cost": 10, "damage": 25, "range": 4}
+        {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
+        {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4}
     ]
 )
 
 char_draw = [
              [manu_asset, manu_rect], 
              [ion_asset, ion_rect],
-             [hori_asset, hori_rect]
+             [hori_asset, hori_rect],
+             [enemy_1_asset, enemy_1_rect],
+             [enemy_2_asset, enemy_2_rect]
 ]
 
 characters = {
@@ -106,13 +109,16 @@ chars_id_and_rects = {
     Hori.char_id: hori_rect,
     Ion.char_id: ion_rect,
     
-    # enemy_1.char_id: enemy_1,
-    # enemy_2.char_id: enemy_2
+    enemy_1.char_id: enemy_1_rect,
+    enemy_2.char_id: enemy_2_rect
 }
 
+char_boxes = loading_assets.get_char_boxes(len(characters))     # creates char_boxes as many as existing chars
+
+chars_huds = dict(zip(characters, char_boxes))      # creates a dictionary with chars and their huds 
 
 #print (Manu.skills)
-print (str(characters))
-print (str(characters["pc_swordsman"]))
-print ("this is: " + str(enemy_1))
-
+# print (str(characters))
+# print (str(characters["pc_swordsman"]))
+# print ("this is: " + str(enemy_1))
+print (chars_huds)

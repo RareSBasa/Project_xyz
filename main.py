@@ -6,9 +6,9 @@ from actions import move, character_add_on_map
 import actions
 
 pygame.init()
-size = width, height = 1920, 1080  #used to attribute the size of my monitor 
+size = width, height = 1920, 1080  
 white = (255, 255, 255)
-black = (0, 0, 0)   # or neighnour 
+black = (0, 0, 0)   
 
 clock = pygame.time.Clock()
 
@@ -17,14 +17,16 @@ pygame.display.set_caption("Project Name TBD")
 font = pygame.font.SysFont(None, 70)
 
 (background, background_rect, _, _,
-_, _, _, _) = loading_assets.load_game_objects()
+_, _, _, _, _, _, _, _) = loading_assets.load_game_objects()
 
 (icon_box, icon_box_rect, health_bar, health_bar_rect, health_bar_lines,
 health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina_bar_lines_rect) = loading_assets.load_hud_objects()
 
-def draw_char_boxes(char_boxes):
-    for box in char_boxes:
-        screen.blit(box[0], box[1])
+characters = characters_properties.characters
+
+# def draw_char_boxes(char_boxes):
+#     for box in char_boxes:
+#         screen.blit(box[0], box[1])
 
 def draw_char_box_bars(): # [[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width], [s_bar_x, s_bar_y, s_bar_height, s_bar_width, s_bar_max_width]]
     red = (255, 0, 0)
@@ -50,14 +52,14 @@ def draw_s_bar(x, y, bar_width, bar_height):
     yellow = (255, 255, 0)
     pygame.draw.rect(screen, yellow, (x, y, bar_width, bar_height))
 
-def draw_hud_1():
-    screen.blit(icon_box, icon_box_rect)
-    screen.blit(health_bar, health_bar_rect)
-    screen.blit(stamina_bar, stamina_bar_rect)
+# def draw_hud_1():
+#     screen.blit(icon_box, icon_box_rect)
+#     screen.blit(health_bar, health_bar_rect)
+#     screen.blit(stamina_bar, stamina_bar_rect)
 
-def draw_hud_2():
-    screen.blit(health_bar_lines, health_bar_lines_rect)
-    screen.blit(stamina_bar_lines, stamina_bar_lines_rect)
+# def draw_hud_2():
+#     screen.blit(health_bar_lines, health_bar_lines_rect)
+#     screen.blit(stamina_bar_lines, stamina_bar_lines_rect)
 
 def draw_text(text, font, text_color, x, y):
     img = font.render(text, True, text_color)
@@ -68,21 +70,30 @@ def redraw():
     screen.blit(background, background_rect)
     for chars in characters_properties.char_draw:
         screen.blit(chars[0], chars[1])
-    draw_hud_1()
-    draw_h_bar(hud.h_bar_x, hud.h_bar_y, hud.h_bar_width, hud.h_bar_height)
-    draw_s_bar(hud.s_bar_x, hud.s_bar_y, hud.s_bar_width, hud.s_bar_height)
-    draw_char_boxes(loading_assets.char_boxes)
+    #draw_hud_1()
+    # draw_h_bar(hud.h_bar_x, hud.h_bar_y, hud.h_bar_width, hud.h_bar_height)
+    # draw_s_bar(hud.s_bar_x, hud.s_bar_y, hud.s_bar_width, hud.s_bar_height)
+    # draw_hud_2()
+
+    for char_box, char_rect in characters_properties.chars_huds.values():
+        screen.blit(char_box, char_rect)
+
     draw_char_box_bars()
-    draw_hud_2()
 
 def try_things(): # Test things using this function
     grid = grid_create()
     character_add_on_map(characters_properties.Ion.char_id, characters_properties.Ion.pos, grid)
     character_add_on_map(characters_properties.Manu.char_id, characters_properties.Manu.pos, grid)
     character_add_on_map(characters_properties.Hori.char_id, characters_properties.Hori.pos, grid)
-    hud.h_bar_width = hud.set_width(48, 160, hud.h_bar_max_width)
-    hud.s_bar_width = hud.set_width(6, 12, hud.s_bar_max_width)
+    character_add_on_map(characters_properties.enemy_1.char_id, characters_properties.enemy_1.pos, grid)
+    character_add_on_map(characters_properties.enemy_2.char_id, characters_properties.enemy_2.pos, grid)
+    # hud.h_bar_width = hud.set_width(96, 160, hud.h_bar_max_width)
+    # hud.s_bar_width = hud.set_width(8, 12, hud.s_bar_max_width)
     
+    characters_properties.Manu.health = 70
+    characters_properties.Hori.stamina = 10
+    characters_properties.Ion.health = 69
+    characters_properties.enemy_1.health = 45
 
 try_things()
 select = False    
