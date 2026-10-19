@@ -24,9 +24,9 @@ health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina
 
 characters = characters_properties.characters
 
-# def draw_char_boxes(char_boxes):
-#     for box in char_boxes:
-#         screen.blit(box[0], box[1])
+def draw_char_boxes(char_boxes):
+    for box in char_boxes:
+        screen.blit(box[0], box[1])
 
 def draw_char_box_bars(): # [[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width], [s_bar_x, s_bar_y, s_bar_height, s_bar_width, s_bar_max_width]]
     red = (255, 0, 0)
@@ -52,14 +52,14 @@ def draw_s_bar(x, y, bar_width, bar_height):
     yellow = (255, 255, 0)
     pygame.draw.rect(screen, yellow, (x, y, bar_width, bar_height))
 
-# def draw_hud_1():
-#     screen.blit(icon_box, icon_box_rect)
-#     screen.blit(health_bar, health_bar_rect)
-#     screen.blit(stamina_bar, stamina_bar_rect)
+def draw_hud_1():
+    screen.blit(icon_box, icon_box_rect)
+    screen.blit(health_bar, health_bar_rect)
+    screen.blit(stamina_bar, stamina_bar_rect)
 
-# def draw_hud_2():
-#     screen.blit(health_bar_lines, health_bar_lines_rect)
-#     screen.blit(stamina_bar_lines, stamina_bar_lines_rect)
+def draw_hud_2():
+    screen.blit(health_bar_lines, health_bar_lines_rect)
+    screen.blit(stamina_bar_lines, stamina_bar_lines_rect)
 
 def draw_text(text, font, text_color, x, y):
     img = font.render(text, True, text_color)
@@ -68,14 +68,14 @@ def draw_text(text, font, text_color, x, y):
 def redraw():
     screen.fill(white)
     screen.blit(background, background_rect)
-    for chars in characters_properties.char_draw:
+    for chars in characters_properties.char_draw:       # draws the chars boxes on the right of the screen 
         screen.blit(chars[0], chars[1])
-    #draw_hud_1()
-    # draw_h_bar(hud.h_bar_x, hud.h_bar_y, hud.h_bar_width, hud.h_bar_height)
-    # draw_s_bar(hud.s_bar_x, hud.s_bar_y, hud.s_bar_width, hud.s_bar_height)
-    # draw_hud_2()
+    draw_hud_1()
+    draw_h_bar(hud.h_bar_x, hud.h_bar_y, hud.h_bar_width, hud.h_bar_height)
+    draw_s_bar(hud.s_bar_x, hud.s_bar_y, hud.s_bar_width, hud.s_bar_height)
+    draw_hud_2()
 
-    for char_box, char_rect in characters_properties.chars_huds.values():
+    for char_box, char_rect in characters_properties.chars_huds.values():       # draws the hp and stamina bars for each char according to current health compared to max_health
         screen.blit(char_box, char_rect)
 
     draw_char_box_bars()
@@ -87,8 +87,8 @@ def try_things(): # Test things using this function
     character_add_on_map(characters_properties.Hori.char_id, characters_properties.Hori.pos, grid)
     character_add_on_map(characters_properties.enemy_1.char_id, characters_properties.enemy_1.pos, grid)
     character_add_on_map(characters_properties.enemy_2.char_id, characters_properties.enemy_2.pos, grid)
-    # hud.h_bar_width = hud.set_width(96, 160, hud.h_bar_max_width)
-    # hud.s_bar_width = hud.set_width(8, 12, hud.s_bar_max_width)
+    hud.h_bar_width = hud.set_width(96, 160, hud.h_bar_max_width)
+    hud.s_bar_width = hud.set_width(8, 12, hud.s_bar_max_width)
     
     characters_properties.Manu.health = 70
     characters_properties.Hori.stamina = 10
@@ -113,6 +113,9 @@ while True:
                 pygame.quit()
                 sys.exit()
 
+            if event.key == pygame.K_t:
+                actions.attack("pc_swordsman", "en_swordsman_1")         # used to test if attack function works as intended 
+
         if event.type == pygame.MOUSEBUTTONUP:  #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
             print(str(detect_pos(event.pos)))
             print(str(event.pos))                                             # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
@@ -136,8 +139,10 @@ while True:
                     new_pos = detect_pos(event.pos)
                     move(char_id, old_pos, new_pos, grid)
                     select = False
+
                 if 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos: # Select turns False if user clicks outside the grid or on the same character
                     select = False
+
 
     redraw()
     pygame.display.flip()
