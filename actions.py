@@ -18,9 +18,11 @@ def character_add_on_map(char_id, pos, grid):
     map[pos] = char_id
     chars_id_and_rects[char_id].topleft = grid[pos]
 
-def attack(char_id_attacker, char_id_defender):					# made it so when an attack is initiated it does damage and uses stamina 
+def attack(char_id_attacker, char_id_defender, skill):					# made it so when an attack is initiated it does damage and uses stamina 
 	attacker = characters[char_id_attacker]
 	defender = characters[char_id_defender]
-	if attacker.stamina >= attacker.skills[0]["stamina_cost"]:
-		defender.take_damage(attacker.skills[0]["damage"])
-		attacker.stamina -= attacker.skills[0]["stamina_cost"]
+	if attacker.stamina >= skill["stamina_cost"]:
+		defender.take_damage(skill["damage"])
+		attacker.stamina -= skill["stamina_cost"]
+
+	print(f"THis char{attacker.name}, damages{defender.name}")

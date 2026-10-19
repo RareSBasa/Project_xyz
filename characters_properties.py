@@ -20,6 +20,7 @@ class Character:
 
     def take_damage(self, amount):
         self.health = max(0, self.health - amount)
+        print(self.health)
 
    # def move(self, new_pos):    
 
@@ -28,7 +29,7 @@ Manu = Character(
     name = "Manu",
     team = "Friendly",
     max_health = 100,
-    max_stamina = 12,
+    max_stamina = 120,
     position = (1, 1),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
@@ -41,7 +42,7 @@ Hori = Character(
     name = "Hori",
     team = "Friendly",
     max_health = 80,
-    max_stamina = 14,
+    max_stamina = 140,
     position = (2, 1),
     skills = [
         {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
@@ -54,7 +55,7 @@ Ion = Character(
     name = "Ion",
     team = "Friendly",
     max_health = 120,
-    max_stamina = 10,
+    max_stamina = 100,
     position = (3, 1),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 2},
@@ -66,24 +67,24 @@ enemy_1 = Character(
     char_id = "en_swordsman_1",
     name = "Marcus",
     team = "Enemy",
-    max_health = 80,
+    max_health = 800,
     max_stamina = 8,
     position = (1, 5),
     skills = [
-        {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
-        {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4}
+        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
+        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
     ]
 )
 enemy_2 = Character(
     char_id = "en_swordsman_2",
     name = "Marcus",
     team = "Enemy",
-    max_health = 80,
+    max_health = 800,
     max_stamina = 8,
     position = (2, 5),
     skills = [
-        {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
-        {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4}
+        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
+        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
     ]
 )
 

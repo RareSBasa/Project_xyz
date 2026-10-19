@@ -90,10 +90,10 @@ def try_things(): # Test things using this function
     hud.h_bar_width = hud.set_width(96, 160, hud.h_bar_max_width)
     hud.s_bar_width = hud.set_width(8, 12, hud.s_bar_max_width)
     
-    characters_properties.Manu.health = 70
-    characters_properties.Hori.stamina = 10
-    characters_properties.Ion.health = 69
-    characters_properties.enemy_1.health = 45
+    # characters_properties.Manu.health = 70
+    # characters_properties.Hori.stamina = 10
+    # characters_properties.Ion.health = 69
+    # characters_properties.enemy_1.health = 45
 
 try_things()
 select = False    
@@ -112,10 +112,7 @@ while True:
             if event.key == pygame.K_ESCAPE: # Why tho? --- A: I like to exit the program with ESC :p
                 pygame.quit()
                 sys.exit()
-
-            if event.key == pygame.K_t:
-                actions.attack("pc_swordsman", "en_swordsman_1")         # used to test if attack function works as intended 
-
+            
         if event.type == pygame.MOUSEBUTTONUP:  #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
             print(str(detect_pos(event.pos)))
             print(str(event.pos))                                             # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
@@ -125,6 +122,10 @@ while True:
                 select = True
                 old_pos = detect_pos(event.pos)
                 char_id = map[old_pos]
+                
+                attacker = characters_properties.characters[char_id]    # attributes the selected char as an attacke in case it needs to attack 
+                selected_skill = attacker.skills[0]                     # reset to this character s first skill
+                print(f"Selected attacker: {attacker.name}")
 
     while select:  # While loop that waits for user to click where to move the selected character
         
@@ -142,7 +143,21 @@ while True:
 
                 if 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos: # Select turns False if user clicks outside the grid or on the same character
                     select = False
+            
+            keys = pygame.key.get_pressed()
 
+            if event.type == pygame.KEYDOWN:
 
+                if event.key == pygame.K_1:
+                    selected_skill = attacker.skills[0]
+                    print(selected_skill["name"])
+                
+                elif event.key == pygame.K_2:
+                    selected_skill = attacker.skills[1]
+                    print(selected_skill["name"])
+                            
+                elif event.key == pygame.K_t:
+                    actions.attack(attacker.name, "en_swordsman_1",selected_skill)         # used to test if attack function works as intended 
+    
     redraw()
     pygame.display.flip()
