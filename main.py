@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Project Name TBD")
-font = pygame.font.SysFont(None, 70)
+font = pygame.font.SysFont(None, 32)
 
 (background, background_rect, _, _,
 _, _, _, _, _, _, _, _) = loading_assets.load_game_objects()
@@ -23,6 +23,7 @@ _, _, _, _, _, _, _, _) = loading_assets.load_game_objects()
 health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina_bar_lines_rect) = loading_assets.load_hud_objects()
 
 characters = characters_properties.characters
+attacker = ""
 
 def draw_char_boxes(char_boxes):
     for box in char_boxes:
@@ -70,15 +71,21 @@ def redraw():
     screen.blit(background, background_rect)
     for chars in characters_properties.char_draw:       # draws the chars boxes on the right of the screen 
         screen.blit(chars[0], chars[1])
-    draw_hud_1()
-    draw_h_bar(hud.h_bar_x, hud.h_bar_y, hud.h_bar_width, hud.h_bar_height)
-    draw_s_bar(hud.s_bar_x, hud.s_bar_y, hud.s_bar_width, hud.s_bar_height)
-    draw_hud_2()
+    # draw_hud_1()
+    # draw_h_bar(hud.h_bar_x, hud.h_bar_y, hud.h_bar_width, hud.h_bar_height)
+    # draw_s_bar(hud.s_bar_x, hud.s_bar_y, hud.s_bar_width, hud.s_bar_height)
+    # draw_hud_2()
 
     for char_box, char_rect in characters_properties.chars_huds.values():       # draws the hp and stamina bars for each char according to current health compared to max_health
         screen.blit(char_box, char_rect)
 
+    if attacker != "":
+        draw_text(f"Selected char: {str(attacker.char_id)}", font, white, 10, 32)
+        
+        draw_text(f"Selected skill: {str(selected_skill)}", font, white, 10, 64)
+
     draw_char_box_bars()
+    pygame.display.flip()
 
 def try_things(): # Test things using this function
     grid = grid_create()
@@ -87,8 +94,8 @@ def try_things(): # Test things using this function
     character_add_on_map(characters_properties.Hori.char_id, characters_properties.Hori.pos, grid)
     character_add_on_map(characters_properties.enemy_1.char_id, characters_properties.enemy_1.pos, grid)
     character_add_on_map(characters_properties.enemy_2.char_id, characters_properties.enemy_2.pos, grid)
-    hud.h_bar_width = hud.set_width(96, 160, hud.h_bar_max_width)
-    hud.s_bar_width = hud.set_width(8, 12, hud.s_bar_max_width)
+    # hud.h_bar_width = hud.set_width(96, 160, hud.h_bar_max_width)
+    # hud.s_bar_width = hud.set_width(8, 12, hud.s_bar_max_width)
     
     # characters_properties.Manu.health = 70
     # characters_properties.Hori.stamina = 10
@@ -113,9 +120,9 @@ while True:
                 pygame.quit()
                 sys.exit()
             
-        if event.type == pygame.MOUSEBUTTONUP:  #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
+        if event.type == pygame.MOUSEBUTTONUP:           #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
             print(str(detect_pos(event.pos)))
-            print(str(event.pos))                                             # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
+            print(str(event.pos))                        # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
             print(str(map[detect_pos(event.pos)]))
             if type(map[detect_pos(event.pos)]) == str:  # Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0).
                 print(map[detect_pos(event.pos)])
@@ -125,7 +132,7 @@ while True:
                 
                 attacker = characters_properties.characters[char_id]    # attributes the selected char as an attacke in case it needs to attack 
                 selected_skill = attacker.skills[0]                     # reset to this character s first skill
-                print(f"Selected attacker: {attacker.name}")
+                print(f"Selected attacker: {attacker.char_id}")
 
     while select:  # While loop that waits for user to click where to move the selected character
         
@@ -138,10 +145,21 @@ while True:
             if event.type == pygame.MOUSEBUTTONUP:
                 if detect_pos(event.pos) != old_pos and 0 not in detect_pos(event.pos):
                     new_pos = detect_pos(event.pos)
-                    move(char_id, old_pos, new_pos, grid)
-                    select = False
+                    target_id = map[new_pos]
 
-                if 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos: # Select turns False if user clicks outside the grid or on the same character
+                    if isinstance(target_id, str):               # asking if the square is occupied 
+                        target = characters[target_id]
+
+                        if target.team != attacker.team:
+                            actions.attack(attacker.char_id, target_id, selected_skill)
+
+                        # else:                             
+                        #     ...
+                    else:                                   
+                        move(char_id, old_pos, new_pos, grid)
+                    select = False
+                    redraw()
+                if 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos:          # Select turns False if user clicks outside the grid or on the same character
                     select = False
             
             keys = pygame.key.get_pressed()
@@ -157,7 +175,7 @@ while True:
                     print(selected_skill["name"])
                             
                 elif event.key == pygame.K_t:
-                    actions.attack(attacker.name, "en_swordsman_1",selected_skill)         # used to test if attack function works as intended 
+                    actions.attack(attacker.char_id, "en_swordsman_1",selected_skill)         # used to test if attack function works as intended 
     
     redraw()
-    pygame.display.flip()
+    #pygame.display.flip()
