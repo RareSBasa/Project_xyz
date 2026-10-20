@@ -135,7 +135,7 @@ while True:
                 print(f"Selected attacker: {attacker.char_id}")
 
     while select:  # While loop that waits for user to click where to move the selected character
-        clock.tick(60)
+        #clock.tick(60)
         redraw()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -145,25 +145,37 @@ while True:
             if event.type == pygame.MOUSEBUTTONUP:
                 if detect_pos(event.pos) != old_pos and 0 not in detect_pos(event.pos):
                     new_pos = detect_pos(event.pos)
-                    target_id = map[new_pos]
-
-                    if isinstance(target_id, str):               # asking if the square is occupied 
-                        target = characters[target_id]
-
-                        if target.team != attacker.team:
-                            actions.attack(attacker.char_id, target_id, selected_skill)
-
-                        # else:                             
-                        #     ...
-                    while attacker.stamina > 0:                                   
-                        move(char_id, old_pos, new_pos, grid) 
-                        old_pos = new_pos                           # gives new position after each move 
-                    else:
+                    if new_pos == old_pos:
+                        select = False
+                    elif new_pos not in map:
                         select = False
                     
-                    redraw()
+                    else:
+                    
+                        target_id = map[new_pos]
+
+                        if isinstance(target_id, str):               # asking if the square is occupied 
+                            target = characters[target_id]
+
+                            if target.team != attacker.team:
+                                actions.attack(attacker.char_id, target_id, selected_skill)
+
+                            # else:                             
+                            #     ...
+                        while attacker.stamina > 0 and old_pos != new_pos:   
+                            print("old_pos:", old_pos)
+                            print("new_pos:", new_pos)
+                            print("same position:", old_pos == new_pos)
+                            print("map at destination:", map.get(new_pos))                                
+                            move(char_id, old_pos, new_pos, grid) 
+                            old_pos = new_pos
+                            new_pos = detect_pos(event.pos)                           # gives new position after each move 
+                            select = True 
+                        select = False
+                        
+                        redraw()
                 
-                if 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos:          # Select turns False if user clicks outside the grid or on the same character
+                elif 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos:          # Select turns False if user clicks outside the grid or on the same character
                     select = False
             
             keys = pygame.key.get_pressed()
