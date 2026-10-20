@@ -135,7 +135,7 @@ while True:
                 print(f"Selected attacker: {attacker.char_id}")
 
     while select:  # While loop that waits for user to click where to move the selected character
-        
+        clock.tick(60)
         redraw()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -155,10 +155,14 @@ while True:
 
                         # else:                             
                         #     ...
-                    else:                                   
-                        move(char_id, old_pos, new_pos, grid)
-                    select = False
+                    while attacker.stamina > 0:                                   
+                        move(char_id, old_pos, new_pos, grid) 
+                        old_pos = new_pos                           # gives new position after each move 
+                    else:
+                        select = False
+                    
                     redraw()
+                
                 if 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos:          # Select turns False if user clicks outside the grid or on the same character
                     select = False
             
