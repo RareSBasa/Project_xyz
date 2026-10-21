@@ -13,8 +13,8 @@ def move(char_id, old_pos, new_pos, grid):
 		chars_id_and_rects[map[new_pos]].topleft = grid[old_pos]		
 
 def character_add_on_map(char_id, pos, grid):
-    map[pos] = char_id
-    chars_id_and_rects[char_id].topleft = grid[pos]
+	map[pos] = char_id
+	chars_id_and_rects[char_id].topleft = grid[pos]
 
 def attack(char_id_attacker, char_id_defender, skill):					# made it so when an attack is initiated it does damage and uses stamina 
 	attacker = characters[char_id_attacker]

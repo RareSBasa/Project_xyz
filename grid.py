@@ -25,8 +25,8 @@ def grid_create():
         for j in range(0, 10):                                  #       {(1, 1)         :         (587, 167)}
             grid_coord.append(                                  #      Position of           (x, y) of the topleft
                 (                                               #        square               corner of the square
-                    (587 + (i * 71) + ((i - 1) * 4)),
-                    (167 + (j * 71) + ((j - 1) * 4))
+                    (591 + (i * 71) + ((i - 1) * 4)),
+                    (171 + (j * 71) + ((j - 1) * 4))            
                 )
             )
     for i in range(0, 100):

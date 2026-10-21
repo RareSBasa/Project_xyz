@@ -51,7 +51,13 @@ def load_hud_objects():
     stamina_bar_lines_rect.x = 159
     stamina_bar_lines_rect.y = 662
 
-    return (icon_box, icon_box_rect, health_bar, health_bar_rect, health_bar_lines, health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina_bar_lines_rect)
+    highlight = pygame.image.load(assets_folder / "highlight.png")
+    highlight_rect = highlight.get_rect()
+
+    selected_highlight = pygame.image.load(assets_folder / "selected_highlight.png")
+    selected_highlight_rect = selected_highlight.get_rect()
+
+    return (icon_box, icon_box_rect, health_bar, health_bar_rect, health_bar_lines, health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina_bar_lines_rect, highlight, highlight_rect, selected_highlight, selected_highlight_rect)
 
 def get_char_boxes(character_number):
     char_boxes = []
