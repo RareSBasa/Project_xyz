@@ -79,8 +79,8 @@ def redraw():
     for char_box, char_rect in characters_properties.chars_huds.values():       # draws the hp and stamina bars for each char according to current health compared to max_health
         screen.blit(char_box, char_rect)
 
-    if attacker != "":
-        draw_text(f"Selected char: {str(attacker.char_id)}", font, white, 10, 32)
+    if selected_char_id is not None:
+        draw_text(f"Selected char: {str(selected_char.char_id)}", font, white, 10, 32)
         
         draw_text(f"Selected skill: {str(selected_skill)}", font, white, 10, 64)
 
@@ -103,7 +103,9 @@ def try_things(): # Test things using this function
     # characters_properties.enemy_1.health = 45
 
 try_things()
-select = False    
+
+selected_char_id = None
+selected_skill = None
 
 while True:
     clock.tick(60)
@@ -125,76 +127,93 @@ while True:
 
     #while select:  # While loop that waits for user to click where to move the selected character
         #clock.tick(60)
-
+        
         if event.type == pygame.MOUSEBUTTONUP:
             print(str(detect_pos(event.pos)))
             #print(str(event.pos))                        # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
             print(str(map[detect_pos(event.pos)]))
 
-            if type(map[detect_pos(event.pos)]) == str:  # Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0).
-                print(map[detect_pos(event.pos)])
-                
-                old_pos = detect_pos(event.pos)
-                char_id = map[old_pos]
-                selected_char = map[old_pos]
-                
-                attacker = characters_properties.characters[char_id]    # attributes the selected char as an attacke in case it needs to attack 
-                selected_skill = attacker.skills[0]                     # reset to this character s first skill
-                print(f"Selected attacker: {attacker.char_id}")
-
-
-            if detect_pos(event.pos) != old_pos and 0 not in detect_pos(event.pos):
-                new_pos = detect_pos(event.pos)
-                select = True
-
-                if new_pos == old_pos:
-                    select = False
-                elif new_pos not in map:
-                    select = False
-                
-                else:      # STIL NEEDS TO BE WORKED ON - selects a char and then instead of attacking it selects the en :p
-                
-                    target_id = map[new_pos]
-
-                    if isinstance(target_id, str):               # asking if the square is occupied 
-                        target = characters[target_id]
-
-                        if target.team != attacker.team:
-                            print("this is the attacker: ",attacker.char_id)
-                            actions.attack(attacker.char_id, target_id, selected_skill)
-
-                        # else:                             
-                        #     ...
-                    if attacker.stamina > 0:   
-                        print("old_pos:", old_pos)
-                        print("Selected who? ", selected_char)
-                        print("new_pos:", new_pos)
-                        print("same position:", old_pos == new_pos)
-                        print("map at destination:", map.get(new_pos))                                
-                        move(attacker.char_id, old_pos, new_pos, grid) 
-                        
-                        old_pos = new_pos
-                        new_pos = detect_pos(event.pos)                           # gives new position after each move 
-
-                    redraw()
+            #if type(map[detect_pos(event.pos)]) == str:  # Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0).
+            print(map[detect_pos(event.pos)])
             
-            elif 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos:          # Select turns False if user clicks outside the grid or on the same character
-                select = False
+            clicked_pos = detect_pos(event.pos)
+
+            if clicked_pos in map:                      # This should ignore clicks outside the map grid
+                occupant_id = map[clicked_pos]
+
+                if selected_char_id is None:
+                    character = characters[occupant_id]
+                    if character.team == "Friendly":
+                        selected_char_id = occupant_id                          # This selects Friendly chars and their 1st skill, in order to move or attack 
+                        selected_skill = character.skills[0]
+            
+                        print(f"Selected char is friendly: {character.char_id}")
+                        
+                        if event.type == pygame.KEYDOWN:
+                        
+                            if event.key == pygame.K_1:
+                                selected_skill = selected_char.skills[0]
+                                print(selected_skill["name"])
+                            
+                            elif event.key == pygame.K_2:
+                                selected_skill = selected_char.skills[1]
+                                print(selected_skill["name"])           
+
+                else:
+                    selected_char = characters[selected_char_id]
+                    # selected_char.pos = old_pos and clicked_pos = new_pos------so you know the logic 
+                    print("This is the selected char: ", selected_char)
+                    if occupant_id == 0:                                         # asks if tile is empty , 0 means no char is on it 
+                        if selected_char.stamina > 0:
+                            print("old_pos:", selected_char.pos) 
+                            print("Selected who? ", selected_char)
+                            print("new_pos:", clicked_pos)
+                            print("same position:", selected_char == clicked_pos)
+                            print("map at destination:", map.get(clicked_pos))   
+                            actions.move(selected_char.char_id, selected_char.pos, clicked_pos, grid)
+
+                    elif isinstance(occupant_id, str):                          # asks if tile is occupied by any chars 
+                        target = characters[occupant_id]
+                        
+                        if target.team != selected_char.team:                   # asks if it's enemy and if so attacks
+                            print(f"This is the attacker: {selected_char.char_id} and this is the target: {target.char_id}")
+                            actions.attack(selected_char.char_id, target.char_id, selected_skill)
+
+                        else:                                                   # if not it's friendly and selects it instead 
+                            selected_char_id = occupant_id 
+                            selected_skill = target.skills[0]
+
+            # if detect_pos(event.pos) != old_pos and 0 not in detect_pos(event.pos):
+            #     new_pos = detect_pos(event.pos)
+
+            #     # STIL NEEDS TO BE WORKED ON - selects a char and then instead of attacking it selects the en :p
+                
+            #     target_id = map[new_pos]
+
+            #     if isinstance(target_id, str):               # asking if the square is occupied 
+            #         target = characters[target_id]
+
+            #         if target.team != attacker.team:
+            #             print("this is the attacker: ",attacker.char_id)
+            #             actions.attack(attacker.char_id, target_id, selected_skill)
+
+            #         # else:                             
+            #         #     ...
+            #     if attacker.stamina > 0:   
+            #         print("old_pos:", old_pos)
+            #         print("Selected who? ", selected_char)
+            #         print("new_pos:", new_pos)
+            #         print("same position:", old_pos == new_pos)
+            #         print("map at destination:", map.get(new_pos))                                
+            #         move(attacker.char_id, old_pos, new_pos, grid) 
+                    
+            #         old_pos = new_pos
+            #         new_pos = detect_pos(event.pos)                           # gives new position after each move 
+
+            #     redraw()
+            
+            # elif 0 in detect_pos(event.pos) or detect_pos(event.pos) == old_pos:          # Select turns False if user clicks outside the grid or on the same character
+            #     select = False
         
-        keys = pygame.key.get_pressed()
-
-        if event.type == pygame.KEYDOWN:
-
-            if event.key == pygame.K_1:
-                selected_skill = attacker.skills[0]
-                print(selected_skill["name"])
-            
-            elif event.key == pygame.K_2:
-                selected_skill = attacker.skills[1]
-                print(selected_skill["name"])
-                        
-            elif event.key == pygame.K_t:
-                actions.attack(attacker.char_id, "en_swordsman_1",selected_skill)         # used to test if attack function works as intended 
-    
     redraw()
     #pygame.display.flip()
