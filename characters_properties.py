@@ -58,7 +58,7 @@ Ion = Character(
     max_stamina = 10,
     position = (3, 1),
     skills = [
-        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 2},
+        {"name": "Spear Thrust", "stamina_cost": 3, "damage": 10, "range": 2},
         {"name": "Rod Boink", "stamina_cost": 4, "damage": 5, "range": 2}
     ]
 )

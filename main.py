@@ -94,9 +94,6 @@ def redraw():
     if hover:
         draw_highlight(mouse_pos)
 
-    
-
-    
     draw_char_box_bars()
     pygame.display.flip()
 
@@ -107,13 +104,6 @@ def try_things(): # Test things using this function
     character_add_on_map(characters_properties.Hori.char_id, characters_properties.Hori.pos, grid)
     character_add_on_map(characters_properties.enemy_1.char_id, characters_properties.enemy_1.pos, grid)
     character_add_on_map(characters_properties.enemy_2.char_id, characters_properties.enemy_2.pos, grid)
-    # hud.h_bar_width = hud.set_width(96, 160, hud.h_bar_max_width)
-    # hud.s_bar_width = hud.set_width(8, 12, hud.s_bar_max_width)
-    
-    # characters_properties.Manu.health = 70
-    # characters_properties.Hori.stamina = 10
-    # characters_properties.Ion.health = 69
-    # characters_properties.enemy_1.health = 45
 
 try_things()
 hover = False
