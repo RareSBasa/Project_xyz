@@ -16,11 +16,20 @@ def character_add_on_map(char_id, pos, grid):
 	map[pos] = char_id
 	chars_id_and_rects[char_id].topleft = grid[pos]
 
+def remove_char_from_map(char_id):
+	character = characters[char_id]
+																		# used to remove chars when the assets is removed due to Death :>
+	if map.get(character.pos) == char_id:
+		map[character.pos] = 0
+   
 def attack(char_id_attacker, char_id_defender, skill):					# made it so when an attack is initiated it does damage and uses stamina 
 	attacker = characters[char_id_attacker]
 	defender = characters[char_id_defender]
 	if attacker.stamina >= skill["stamina_cost"]:
 		defender.take_damage(skill["damage"])
 		attacker.stamina -= skill["stamina_cost"]
+
+		if defender.status == "Dead":
+			remove_char_from_map(defender.char_id)
 
 	print(f"THis char {attacker.char_id}, damages {defender.char_id}")

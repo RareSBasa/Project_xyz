@@ -6,7 +6,7 @@ import loading_assets
 
 class Character:
 
-    def __init__(self, char_id, name, team, max_health, max_stamina, position, skills):
+    def __init__(self, char_id, name, team, max_health, max_stamina, speed, position, skills, status):
 
         self.char_id = char_id
         self.name = name
@@ -15,14 +15,19 @@ class Character:
         self.health = max_health
         self.max_stamina = max_stamina
         self.stamina = max_stamina
+        self.speed = speed 
         self.pos = position
         self.skills = skills 
+        self.status = status
 
     def take_damage(self, amount):
+        
         self.health = max(0, self.health - amount)
         print(self.health)
 
-   # def move(self, new_pos):    
+        if self.health == 0:
+                    self.status = "Dead"
+        print("Status: ", self.status)
 
 Manu = Character(
     char_id = "pc_swordsman",
@@ -30,11 +35,13 @@ Manu = Character(
     team = "Friendly",
     max_health = 100,
     max_stamina = 12,
+    speed = 4,
     position = (1, 1),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
         {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
-    ]
+    ],
+    status = "Alive"
 
 )
 Hori = Character(
@@ -43,11 +50,13 @@ Hori = Character(
     team = "Friendly",
     max_health = 80,
     max_stamina = 14,
+    speed = 6,
     position = (2, 1),
     skills = [
         {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
         {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4}
-    ]
+    ],
+    status = "Alive"
 
 )
 Ion = Character(
@@ -56,24 +65,28 @@ Ion = Character(
     team = "Friendly",
     max_health = 120,
     max_stamina = 10,
+    speed = 3,
     position = (3, 1),
     skills = [
         {"name": "Spear Thrust", "stamina_cost": 3, "damage": 10, "range": 2},
         {"name": "Rod Boink", "stamina_cost": 4, "damage": 5, "range": 2}
-    ]
+    ],
+    status = "Alive"
 )
 
 enemy_1 = Character(
     char_id = "en_swordsman_1",
     name = "Marcus",
     team = "Enemy",
-    max_health = 80,
+    max_health = 10,
     max_stamina = 8,
+    speed = 4,
     position = (1, 5),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
         {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
-    ]
+    ],
+    status = "Alive"
 )
 enemy_2 = Character(
     char_id = "en_swordsman_2",
@@ -81,20 +94,22 @@ enemy_2 = Character(
     team = "Enemy",
     max_health = 80,
     max_stamina = 8,
+    speed = 4,
     position = (2, 5),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
         {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
-    ]
+    ],
+    status = "Alive"
 )
 
-char_draw = [
-             [manu_asset, manu_rect], 
-             [ion_asset, ion_rect],
-             [hori_asset, hori_rect],
-             [enemy_1_asset, enemy_1_rect],
-             [enemy_2_asset, enemy_2_rect]
-]
+char_draw = {
+    Manu.char_id: [manu_asset, manu_rect], 
+    Ion.char_id: [ion_asset, ion_rect],
+    Hori.char_id: [hori_asset, hori_rect],
+    enemy_1.char_id: [enemy_1_asset, enemy_1_rect],
+    enemy_2.char_id: [enemy_2_asset, enemy_2_rect]
+}
 
 characters = {
     Manu.char_id: Manu,
@@ -117,9 +132,3 @@ chars_id_and_rects = {
 char_boxes = loading_assets.get_char_boxes(len(characters))     # creates char_boxes as many as existing chars
 
 chars_huds = dict(zip(characters, char_boxes))      # creates a dictionary with chars and their huds 
-
-#print (Manu.skills)
-# print (str(characters))
-# print (str(characters["pc_swordsman"]))
-# print ("this is: " + str(enemy_1))
-print (chars_huds)
