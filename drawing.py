@@ -66,14 +66,18 @@ def redraw(screen, white, background, background_rect, characters_properties, se
         screen.blit(char_box, char_rect)
 
     if selected_char_id != None and active_skill != None:
-        draw_text(f"Selected char: {str(selected_char_id)}", font, white, 10, 32, screen)
+        draw_text(f"Selected char: {str(selected_char_id)}, HP: {str(characters_properties.characters[selected_char_id].max_health)} and ST: {str(characters_properties.characters[selected_char_id].max_stamina)}",
+                   font, white, 10, 32, screen)
                                                                                            # still need to make it work with the new select logic 
         draw_text(f"Active skill: {str(active_skill)}", font, white, 10, 64, screen)
 
-        draw_text(f"Character's Status: {str(characters_properties.characters[selected_char_id].status)}",
+        draw_text(f"Character's EXP: {str(characters_properties.characters[selected_char_id].exp)}",
                                         font, white, 10, 96, screen
                                         )
-
+        draw_text(f"Character's LVL: {str(characters_properties.characters[selected_char_id].level)}",
+                                                font, white, 10, 128, screen
+                                                )
+        
     if select:
         draw_selected_highlight(char_pos, selected_highlight_rect, screen, selected_highlight, grid)
 

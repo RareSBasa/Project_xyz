@@ -47,7 +47,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-        # Back-End stuff \/
+    ### Back-End stuff \/
         
         if event.type == pygame.MOUSEBUTTONUP:            #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
             if 0 not in detect_pos(event.pos):
@@ -85,6 +85,8 @@ while True:
                                 if target.team != selected_char.team:                   # asks if it's enemy and if so attacks
 
                                     actions.attack(selected_char.char_id, target.char_id, active_skill)
+                                    while selected_char.exp >= 100 :
+                                        characters_properties.selected_char.level_up()
 
                                 else:                                                   # if not it's friendly and selects it instead 
                                     selected_char_id = occupant_id 
@@ -112,7 +114,7 @@ while True:
                     print(active_skill["name"])      
 
                         
-    # Front - End stuff \/
+    ### Front - End stuff \/
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mouse_pos = detect_pos((mouse_x, mouse_y))

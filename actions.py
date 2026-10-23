@@ -8,7 +8,7 @@ def move(char_id, old_pos, new_pos, grid):
 	characters[char_id].pos = new_pos
 	if characters[char_id].stamina > 0:
 		chars_id_and_rects[map[new_pos]].topleft = grid[new_pos]
-		characters[char_id].stamina -= 1								# made it so for each time a char moves it loses 1 stamina
+		characters[char_id].stamina -= (4 - characters[char_id].speed)								# made it so for each time a char moves it loses 1 stamina
 	else:
 		chars_id_and_rects[map[new_pos]].topleft = grid[old_pos]		
 
@@ -31,5 +31,5 @@ def attack(char_id_attacker, char_id_defender, skill):					# made it so when an 
 
 		if defender.status == "Dead":
 			remove_char_from_map(defender.char_id)
-
+			attacker.exp += 102
 	print(f"THis char {attacker.char_id}, damages {defender.char_id}")

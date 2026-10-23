@@ -6,10 +6,12 @@ import loading_assets
 
 class Character:
 
-    def __init__(self, char_id, name, team, max_health, max_stamina, speed, position, skills, status):
+    def __init__(self, char_id, name, team, max_health, max_stamina, speed, position, skills, status, level, exp):
 
         self.char_id = char_id
         self.name = name
+        self.level = level
+        self.exp = exp
         self.team = team
         self.max_health = max_health
         self.health = max_health
@@ -29,13 +31,21 @@ class Character:
                     self.status = "Dead"
         print("Status: ", self.status)
 
+    def level_up(self):
+        self.max_health *= 1.05
+        self.max_stamina += .5
+        self.exp -= 100  
+        self.level += 1
+
 Manu = Character(
     char_id = "pc_swordsman",
     name = "Manu",
+    level = 1,
+    exp = 0,
     team = "Friendly",
     max_health = 100,
     max_stamina = 12,
-    speed = 4,
+    speed = 2,
     position = (1, 1),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
@@ -47,10 +57,12 @@ Manu = Character(
 Hori = Character(
     char_id = "pc_archer",
     name = "Hori",
+    level = 1,
+    exp = 0,
     team = "Friendly",
     max_health = 80,
     max_stamina = 14,
-    speed = 6,
+    speed = 3,
     position = (2, 1),
     skills = [
         {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
@@ -62,10 +74,12 @@ Hori = Character(
 Ion = Character(
     char_id = "pc_spearman",
     name = "Ion",
+    level = 1,
+    exp = 0,    
     team = "Friendly",
     max_health = 120,
     max_stamina = 10,
-    speed = 3,
+    speed = 1,
     position = (3, 1),
     skills = [
         {"name": "Spear Thrust", "stamina_cost": 3, "damage": 10, "range": 2},
@@ -78,9 +92,11 @@ enemy_1 = Character(
     char_id = "en_swordsman_1",
     name = "Marcus",
     team = "Enemy",
+    level = 1,
+    exp = 0,    
     max_health = 10,
     max_stamina = 8,
-    speed = 4,
+    speed = 1,
     position = (1, 5),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
@@ -90,11 +106,13 @@ enemy_1 = Character(
 )
 enemy_2 = Character(
     char_id = "en_swordsman_2",
-    name = "Marcus",
+    name = "Darius",
+    level = 1,
+    exp = 0,
     team = "Enemy",
     max_health = 80,
     max_stamina = 8,
-    speed = 4,
+    speed = 1,
     position = (2, 5),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
