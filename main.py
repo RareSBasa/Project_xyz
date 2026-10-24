@@ -81,8 +81,9 @@ while True:
 
                             elif isinstance(occupant_id, str):                          # asks if tile is occupied by any chars 
                                 target = characters[occupant_id]
-                            
-                                if target.team != selected_char.team:                   # asks if it's enemy and if so attacks
+                                distance = abs(selected_char.pos[0] - target.pos[0]) + abs(selected_char.pos[1] - target.pos[1])    # the distance between selected char and the enemy you want to attack 
+
+                                if target.team != selected_char.team and distance <= active_skill["range"]:                   # asks if it's enemy and if so attacks
 
                                     actions.attack(selected_char.char_id, target.char_id, active_skill)
                                     while selected_char.exp >= 100 :

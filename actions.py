@@ -31,5 +31,5 @@ def attack(char_id_attacker, char_id_defender, skill):					# made it so when an 
 
 		if defender.status == "Dead":
 			remove_char_from_map(defender.char_id)
-			attacker.exp += 102
+			attacker.exp += 10
 	print(f"THis char {attacker.char_id}, damages {defender.char_id}")
