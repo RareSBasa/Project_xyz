@@ -2,19 +2,26 @@ from characters_properties import characters
 from grid import map, grid
 from characters_properties import chars_id_and_rects
 
+
 def move(char_id, old_pos, new_pos, grid):
 	map[new_pos] = char_id
 	map[old_pos] = 0
 	characters[char_id].pos = new_pos
 	if characters[char_id].stamina > 0:
-		chars_id_and_rects[map[new_pos]].topleft = grid[new_pos]
+		new_coord = list(grid[new_pos])
+		new_coord[1] = new_coord[1] + 10
+		chars_id_and_rects[map[new_pos]].midbottom = tuple(new_coord)
 		characters[char_id].stamina -= (4 - characters[char_id].speed)								# made it so for each time a char moves it loses 1 stamina
 	else:
-		chars_id_and_rects[map[new_pos]].topleft = grid[old_pos]		
+		old_coord = list(grid[old_pos])
+		old_coord[1] = old_coord[1] + 10
+		chars_id_and_rects[map[new_pos]].midbottom = tuple(old_coord)	
 
 def character_add_on_map(char_id, pos, grid):
 	map[pos] = char_id
-	chars_id_and_rects[char_id].topleft = grid[pos]
+	coord = list(grid[pos])
+	coord[1] = coord[1] + 10
+	chars_id_and_rects[char_id].midbottom = tuple(coord)
 
 def remove_char_from_map(char_id):
 	character = characters[char_id]

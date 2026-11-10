@@ -50,21 +50,21 @@ while True:
     ### Back-End stuff \/
         
         if event.type == pygame.MOUSEBUTTONUP:            #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
-            if 0 not in detect_pos(event.pos):
+            if 0 not in detect_pos(event.pos, grid):
                 if event.button == 1:                         # Left Click for select and attack(for now) 
-                    print(str(detect_pos(event.pos)))
+                    print(str(detect_pos(event.pos, grid)))
                          # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
-                    print(str(map[detect_pos(event.pos)]))
+                    print(str(map[detect_pos(event.pos, grid)]))
 
                     #if type(map[detect_pos(event.pos)]) == str:  # Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0). --- changed the logic so no longer needed will delete after more testing 
-                    print(map[detect_pos(event.pos)])
+                    print(map[detect_pos(event.pos, grid)])
                 
-                    clicked_pos = detect_pos(event.pos)
+                    clicked_pos = detect_pos(event.pos, grid)
 
                     if clicked_pos in map:                      # This should ignore clicks outside the map grid
                         occupant_id = map[clicked_pos]
 
-                        if selected_char_id is None and type(map[detect_pos(event.pos)]) == str:
+                        if selected_char_id is None and type(map[detect_pos(event.pos, grid)]) == str:
                             character = characters[occupant_id]
                             if character.team == "Friendly":
                                 selected_char_id = occupant_id                          # This selects Friendly chars and their 1st skill, in order to move or attack 
@@ -118,7 +118,7 @@ while True:
     ### Front - End stuff \/
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    mouse_pos = detect_pos((mouse_x, mouse_y))
+    mouse_pos = detect_pos((mouse_x, mouse_y), grid)
     if 0 not in mouse_pos:                          # Hover for battlemap grid
         hover = True
     else:

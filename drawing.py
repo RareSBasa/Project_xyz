@@ -42,11 +42,11 @@ def draw_text(text, font, text_color, x, y, screen):
     screen.blit(img, (x, y))
 
 def draw_highlight(mouse_pos, highlight_rect, screen, highlight, grid):
-    highlight_rect.topleft = grid[mouse_pos]            # Draw a highlight on the cursor hovered battle map square
+    highlight_rect.center = grid[mouse_pos]            # Draw a highlight on the cursor hovered battle map square
     screen.blit(highlight, highlight_rect)
 
 def draw_selected_highlight(char_pos, selected_highlight_rect, screen, selected_highlight, grid):
-    selected_highlight_rect.topleft = grid[char_pos]
+    selected_highlight_rect.center = grid[char_pos]
     screen.blit(selected_highlight, selected_highlight_rect)
 
 def redraw(screen, white, background, background_rect, characters_properties, selected_char_id, active_skill, select,
@@ -55,6 +55,12 @@ def redraw(screen, white, background, background_rect, characters_properties, se
     
     screen.fill(white)
     screen.blit(background, background_rect)
+
+    if select:
+        draw_selected_highlight(char_pos, selected_highlight_rect, screen, selected_highlight, grid)
+
+    if hover:
+        draw_highlight(mouse_pos, highlight_rect, screen, highlight, grid)
 
     for char_id, (asset, rect) in characters_properties.char_draw.items():       # draws the chars's assets on the screen 
         character = characters_properties.characters[char_id]
@@ -78,11 +84,7 @@ def redraw(screen, white, background, background_rect, characters_properties, se
                                                 font, white, 10, 128, screen
                                                 )
         
-    if select:
-        draw_selected_highlight(char_pos, selected_highlight_rect, screen, selected_highlight, grid)
-
-    if hover:
-        draw_highlight(mouse_pos, highlight_rect, screen, highlight, grid)
+    
 
     draw_char_box_bars(hud, screen)                     # draws the chars boxes on the right of the screen 
     
