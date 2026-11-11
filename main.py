@@ -1,4 +1,4 @@
-import pygame, sys, random, characters_properties, loading_assets, hud, actions, drawing
+import pygame, sys, characters_properties, loading_assets, hud, actions, drawing, turn_system 
 from grid import detect_pos, grid_create, map, grid
 
 pygame.init()
@@ -20,6 +20,9 @@ health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina
 highlight, highlight_rect, selected_highlight, selected_highlight_rect) = loading_assets.load_hud_objects()
 
 characters = characters_properties.characters
+
+turn_manager = turn_system.Turn_manager()
+
 attacker = ""
 
 def try_things(): # Test things using this function
@@ -29,6 +32,7 @@ def try_things(): # Test things using this function
     actions.character_add_on_map(characters_properties.Hori.char_id, characters_properties.Hori.pos, grid)
     actions.character_add_on_map(characters_properties.enemy_1.char_id, characters_properties.enemy_1.pos, grid)
     actions.character_add_on_map(characters_properties.enemy_2.char_id, characters_properties.enemy_2.pos, grid)
+    turn_manager.roll_initiative()
 
 try_things()
 hover = False
