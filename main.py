@@ -22,6 +22,14 @@ highlight, highlight_rect, selected_highlight, selected_highlight_rect) = loadin
 characters = characters_properties.characters
 
 turn_manager = turn_system.Turn_manager()
+turn_manager.start_battle()
+
+print(
+    "Active character:",
+    turn_manager.get_active_char_id(),
+    "| Turn:",
+    turn_manager.turn_number
+)
 
 attacker = ""
 
@@ -32,7 +40,6 @@ def try_things(): # Test things using this function
     actions.character_add_on_map(characters_properties.Hori.char_id, characters_properties.Hori.pos, grid)
     actions.character_add_on_map(characters_properties.enemy_1.char_id, characters_properties.enemy_1.pos, grid)
     actions.character_add_on_map(characters_properties.enemy_2.char_id, characters_properties.enemy_2.pos, grid)
-    turn_manager.roll_initiative()
 
 try_things()
 hover = False
@@ -118,6 +125,16 @@ while True:
                     active_skill = selected_char.skills[1]
                     print(active_skill["name"])      
 
+            
+            if event.key == pygame.K_RETURN:
+                turn_manager.end_turn()
+
+                print(
+                    "Active character:",
+                    turn_manager.get_active_char_id(),
+                    "| Turn:",
+                    turn_manager.turn_number
+                )
                         
     ### Front - End stuff \/
 
