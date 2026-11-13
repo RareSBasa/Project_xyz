@@ -23,7 +23,7 @@ characters = characters_properties.characters
 
 turn_manager = turn_system.Turn_manager()
 turn_manager.start_battle()
-
+active_char_id = turn_manager.get_active_char_id()
 print(
     "Active character:",
     turn_manager.get_active_char_id(),
@@ -60,33 +60,34 @@ while True:
 
     ### Back-End stuff \/
         
-        if event.type == pygame.MOUSEBUTTONUP:            #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
+        if event.type == pygame.MOUSEBUTTONUP:                              #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
             if 0 not in detect_pos(event.pos, grid):
-                if event.button == 1:                         # Left Click for select and attack(for now) 
+                if event.button == 1:                                       # Left Click for select and attack(for now) 
                     print(str(detect_pos(event.pos, grid)))
                          # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
                     print(str(map[detect_pos(event.pos, grid)]))
 
-                    #if type(map[detect_pos(event.pos)]) == str:  # Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0). --- changed the logic so no longer needed will delete after more testing 
+                    #if type(map[detect_pos(event.pos)]) == str:            # Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0). --- changed the logic so no longer needed will delete after more testing 
                     print(map[detect_pos(event.pos, grid)])
                 
                     clicked_pos = detect_pos(event.pos, grid)
 
-                    if clicked_pos in map:                      # This should ignore clicks outside the map grid
+                    if clicked_pos in map:                                              # This should ignore clicks outside the map grid
                         occupant_id = map[clicked_pos]
 
                         if selected_char_id is None and type(map[detect_pos(event.pos, grid)]) == str:
-                            character = characters[occupant_id]
-                            if character.team == "Friendly":
-                                selected_char_id = occupant_id                          # This selects Friendly chars and their 1st skill, in order to move or attack 
-                                active_skill = character.skills[0]            
-                                print(f"Selected char is friendly: {character.char_id}")
+                            
+                            if occupant_id == active_char_id:
+                                character = characters[occupant_id]                                            
+                    
+                                if character.team == "Friendly":                        # This selects Friendly chars and their 1st skill, in order to move or attack 
+                                    selected_char_id = occupant_id
+                                    active_skill = character.skills[0]            
+                                    print(f"Selected char is friendly: {character.char_id}")
                             
                         else:
-                            selected_char = characters[selected_char_id]
-                            # selected_char.pos = old_pos and clicked_pos = new_pos------so you know the logic 
                             
-                            if occupant_id == 0:                                         # asks if tile is empty , 0 means no char is on it 
+                            if occupant_id == 0 and selected_char != None:                                         # asks if tile is empty , 0 means no char is on it 
                                 if selected_char.stamina > 0:
                                     actions.move(selected_char.char_id, selected_char.pos, clicked_pos, grid)
 
@@ -128,7 +129,8 @@ while True:
             
             if event.key == pygame.K_RETURN:
                 turn_manager.end_turn()
-
+                selected_char_id = None 
+                active_char_id = turn_manager.get_active_char_id()
                 print(
                     "Active character:",
                     turn_manager.get_active_char_id(),
