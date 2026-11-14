@@ -48,6 +48,7 @@ active_skill = None
 select = False
 char_pos = ()
 
+
 while True:
     clock.tick(60)
 

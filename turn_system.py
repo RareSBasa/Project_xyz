@@ -4,7 +4,7 @@ from characters_properties import characters
 class Turn_manager:
     def __init__(self):
         self.turn_order = []            # Will store the turn order 
-        self.initiative_rolls = {}      # Stores the initiative rolls for each char_id in a dict
+        self.initiative_rolls = {}      # Stores the initiative rolls for each char_id in a dict {char_id : initiative_roll }
         self.current_turn_index = 0     # The turn will change from 0 (1st char in order) to 1(2nd char in order) to 2...... and so on # so it knows who's turn it is 
         self.turn_number = 0            # this is the round after the chars complete their turns the round_number increases 
         self.battle_active = False      # If out of battle is False , if battle start it will change to True 
@@ -15,24 +15,32 @@ class Turn_manager:
         for char_id, character in characters.items():
             if character.status != "Alive":
                 continue
+
             minimum_roll = character.speed - 1
             maximum_roll = character.speed + 2
 
             initiative = random.randint(minimum_roll, maximum_roll)
             self.initiative_rolls[char_id] = initiative
 
+            print(
+                    f"{character.name} | "
+                    f"speed: {character.speed} | "
+                    f"range: {minimum_roll}-{maximum_roll} | "          # To test if it work and it does :)
+                    f"initiative: {initiative}"
+                )    
         return self.initiative_rolls           
 
     def create_turn_order(self):
         self.turn_order = list(self.initiative_rolls.keys())          # creates list for turn order 
 
         self.turn_order.sort(
-            key = self.get_sort_values,                               # sorts it so it's from highest to lowest initiate roll 
+            key = self.get_sort_values,                               # sorts it so it's from highest to lowest initiate roll, speed , friendly  
             reverse = True 
         )
+        print (self.turn_order)
         return self.turn_order
 
-    def get_sort_values(self, char_id):
+    def get_sort_values(self, char_id):                               # 2 (Enemey) , 4 , 1(Friendly), 2 (Friendly), 1 (Enemy) - > 4, 2(Friendly), 2(Enemy), 1(Friendly). 1(Enemy)
         character = characters[char_id]
         initiative = self.initiative_rolls[char_id]
         speed = character.speed
@@ -41,7 +49,7 @@ class Turn_manager:
         else:
             friendly_priority = 0
 
-        return initiative, speed, friendly_priority
+        return initiative, friendly_priority, speed
 
     def start_battle(self):                                           # starts the battle duhh
         self.current_turn_index = 0
