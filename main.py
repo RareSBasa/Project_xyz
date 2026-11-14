@@ -78,7 +78,7 @@ while True:
 
                         if selected_char_id is None and type(map[detect_pos(event.pos, grid)]) == str:
                             
-                            if occupant_id == active_char_id:
+                            if occupant_id == active_char_id:                           # only selects chars during their turn 
                                 character = characters[occupant_id]                                            
                     
                                 if character.team == "Friendly":                        # This selects Friendly chars and their 1st skill, in order to move or attack 
