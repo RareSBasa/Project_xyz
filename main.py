@@ -28,7 +28,7 @@ print(
     "Active character:",
     turn_manager.get_active_char_id(),
     "| Turn:",
-    turn_manager.turn_number
+    turn_manager.create_turn_order()
 )
 
 attacker = ""
@@ -65,10 +65,7 @@ while True:
             if 0 not in detect_pos(event.pos, grid):
                 if event.button == 1:                                       # Left Click for select and attack(for now) 
                     print(str(detect_pos(event.pos, grid)))
-                         # --- map = {(1, 1) : "Manu" } --- Manu --- detect_pos turns (532, 432) to (1, 1)
                     print(str(map[detect_pos(event.pos, grid)]))
-
-                    #if type(map[detect_pos(event.pos)]) == str:            # Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0). --- changed the logic so no longer needed will delete after more testing 
                     print(map[detect_pos(event.pos, grid)])
                 
                     clicked_pos = detect_pos(event.pos, grid)
@@ -76,7 +73,7 @@ while True:
                     if clicked_pos in map:                                              # This should ignore clicks outside the map grid
                         occupant_id = map[clicked_pos]
 
-                        if selected_char_id is None and type(map[detect_pos(event.pos, grid)]) == str:
+                        if selected_char_id is None and type(map[detect_pos(event.pos, grid)]) == str:# Checks if map[click_pos] is a string ("char_id"), otherwise it would be int (0).
                             
                             if occupant_id == active_char_id:                           # only selects chars during their turn 
                                 character = characters[occupant_id]                                            
@@ -87,7 +84,8 @@ while True:
                                     print(f"Selected char is friendly: {character.char_id}")
                             
                         else:
-                            
+                            selected_char_id = occupant_id
+                            selected_char = character
                             if occupant_id == 0 and selected_char != None:                                         # asks if tile is empty , 0 means no char is on it 
                                 if selected_char.stamina > 0:
                                     actions.move(selected_char.char_id, selected_char.pos, clicked_pos, grid)
@@ -136,8 +134,9 @@ while True:
                     "Active character:",
                     turn_manager.get_active_char_id(),
                     "| Turn:",
-                    turn_manager.turn_number
+                    turn_manager.round_number
                 )
+                print (turn_manager.turn_order)
                         
     ### Front - End stuff \/
 
@@ -157,4 +156,4 @@ while True:
 
     drawing.redraw(screen, white, background, background_rect, characters_properties, selected_char_id, active_skill, select,
                    char_pos, hover, mouse_pos, font, selected_highlight, grid, selected_highlight_rect, highlight, highlight_rect,
-                   hud)
+                   hud, turn_manager)

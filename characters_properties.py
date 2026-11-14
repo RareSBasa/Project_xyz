@@ -1,14 +1,14 @@
 # All about the Characters and their behaviour 
-import loading_assets, turn_system
+import loading_assets
 
 width = 1920
 
 (_, _, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect,
  enemy_1_asset, enemy_1_rect, enemy_2_asset, enemy_2_rect) = loading_assets.load_game_objects()
 
-(manu_turn_box_asset, manu_turn_box_rect, ion_turn_box_asset, 
-  ion_turn_box_rect, hori_turn_box_asset, hori_turn_box_rect, enemy_1_turn_box_asset, 
-  enemy_1_turn_box_rect, enemy_2_turn_box_asset, enemy_2_turn_box_rect) = loading_assets.load_turn_box_assets()
+([manu_turn_box_asset, manu_turn_box_rect], [ion_turn_box_asset, 
+  ion_turn_box_rect], [hori_turn_box_asset, hori_turn_box_rect], [enemy_1_turn_box_asset, 
+  enemy_1_turn_box_rect], [enemy_2_turn_box_asset, enemy_2_turn_box_rect]) = loading_assets.load_turn_box_assets()
 
 class Character:
 
@@ -164,8 +164,8 @@ chars_turn_box_items = {
 
     }
 
-def set_icon_order():
-    turn_order = turn_system.Turn_manager.turn_order
+def set_icon_order(turn_order):
+    
     start_point = (width // 2) - ((len(turn_order) // 2) * 92)
 
     if len(turn_order) % 2 == 0:

@@ -1,4 +1,4 @@
-import loading_assets, characters_properties, turn_system
+import loading_assets, characters_properties
 
 screen = width, height = 1920, 1080
 
@@ -43,9 +43,9 @@ def get_bars(): # [[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width
 
     return bars
 
-def get_turn_box_hp_bars():
+def get_turn_box_hp_bars(turn_manager):
     bars = []
-    turn_order = turn_system.Turn_manager.turn_order
+    turn_order = turn_manager.turn_order
     h_bar_max_width = 78
     char_nr = len(turn_order)
     start_point = (width // 2) - ((char_nr//2) * 92) + 7

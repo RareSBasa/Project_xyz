@@ -7,7 +7,7 @@ class Turn_manager:
         self.turn_order = []            # Will store the turn order 
         self.initiative_rolls = {}      # Stores the initiative rolls for each char_id in a dict {char_id : initiative_roll }
         self.current_turn_index = 0     # The turn will change from 0 (1st char in order) to 1(2nd char in order) to 2...... and so on # so it knows who's turn it is 
-        self.turn_number = 0            # this is the round after the chars complete their turns the round_number increases 
+        self.round_number = 0            # this is the round after the chars complete their turns the round_number increases 
         self.battle_active = False      # If out of battle is False , if battle start it will change to True 
 
     def roll_initiative(self):
@@ -54,7 +54,7 @@ class Turn_manager:
 
     def start_battle(self):                                           # starts the battle duhh
         self.current_turn_index = 0
-        self.turn_number = 1
+        self.round_number = 1
         self.battle_active = True
 
         self.roll_initiative()
@@ -74,9 +74,8 @@ class Turn_manager:
             return None      
         if not self.turn_order:
             return None
-        self.turn_number += 1
+        self.round_number += 1
         checked_chars = 0
-        
 
         while checked_chars < len(self.turn_order):                   # used to check if chars are alive, if not they will not be "shown" in the turn order
             
@@ -90,10 +89,11 @@ class Turn_manager:
 
             if active_character.status == "Alive":
                 return
+            else:
+                self.turn_order.remove(active_character)
             
             checked_chars += 1
         
-
         self.end_battle()
 
     def end_battle(self):                   # ends the battle and resets turn order, initiation rolls, current turn index, turn number in order to be re initiated when next battle starts
@@ -102,6 +102,7 @@ class Turn_manager:
         self.current_turn_index = 0
         self.turn_number = 0
         self.battle_active = False
+
 
 def set_turn():
     for turn_number in range(0, len(Turn_manager.turn_order)):

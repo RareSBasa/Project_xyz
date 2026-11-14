@@ -1,14 +1,14 @@
 import pygame
 
-import loading_assets, characters_properties, turn_system
+import loading_assets, characters_properties
 
 def draw_char_boxes(char_boxes, screen):
     for box in char_boxes:
         screen.blit(box[0], box[1])
 
-def draw_char_turn_order_box_bars(hud, screen):
+def draw_char_turn_order_box_bars(hud, screen, turn_manager):
     red = (225, 0, 0)
-    bars = hud.get_turn_box_hp_bars()
+    bars = hud.get_turn_box_hp_bars(turn_manager)
     for bar in bars:
         h_bar_x = bar[0]
         h_bar_y = bar[1]
@@ -16,19 +16,17 @@ def draw_char_turn_order_box_bars(hud, screen):
         h_bar_width = bar[3]
         pygame.draw.rect(screen, red, (h_bar_x, h_bar_y, h_bar_width, h_bar_height))
 
-def draw_turn_boxes(hud, screen):
-    turn_order = turn_system.Turn_manager.turn_order
-    draw_char_turn_order_box_bars(hud, screen)
+def draw_turn_boxes(hud, screen, turn_manager):
+    turn_order = turn_manager.turn_order
+    draw_char_turn_order_box_bars(hud, screen, turn_manager)
     turn_boxes = loading_assets.load_turn_box_assets()
     draw_char_boxes(turn_boxes, screen)
-    characters_properties.set_icon_order()
+    characters_properties.set_icon_order(turn_order)
     for char_id in turn_order:
         icon_asset = characters_properties.chars_turn_box_items[char_id][0]
         icon_rect = characters_properties.chars_turn_box_items[char_id][1]
         screen.blit(icon_asset, icon_rect)
     
-
-
 def draw_hud_1(screen, icon_box, icon_box_rect, health_bar, health_bar_rect, stamina_bar, stamina_bar_rect):
     screen.blit(icon_box, icon_box_rect)
     screen.blit(health_bar, health_bar_rect)
@@ -52,7 +50,7 @@ def draw_selected_highlight(char_pos, selected_highlight_rect, screen, selected_
 
 def redraw(screen, white, background, background_rect, characters_properties, selected_char_id, active_skill, select,
         char_pos, hover, mouse_pos, font, selected_highlight, grid, selected_highlight_rect, highlight, highlight_rect,
-        hud ):
+        hud, turn_manager ):
     
     screen.fill(white)
     screen.blit(background, background_rect)
@@ -86,6 +84,6 @@ def redraw(screen, white, background, background_rect, characters_properties, se
                                                 )
         
     
-    draw_turn_boxes(hud, screen)                   # draws the chars boxes on the right of the screen 
+    draw_turn_boxes(hud, screen, turn_manager)                   # draws the chars boxes on the right of the screen 
     
     pygame.display.flip()
