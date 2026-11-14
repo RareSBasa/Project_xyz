@@ -1,8 +1,14 @@
 # All about the Characters and their behaviour 
-import loading_assets
+import loading_assets, turn_system
+
+width = 1920
 
 (_, _, manu_asset, manu_rect, ion_asset, ion_rect, hori_asset, hori_rect,
  enemy_1_asset, enemy_1_rect, enemy_2_asset, enemy_2_rect) = loading_assets.load_game_objects()
+
+(manu_turn_box_asset, manu_turn_box_rect, ion_turn_box_asset, 
+  ion_turn_box_rect, hori_turn_box_asset, hori_turn_box_rect, enemy_1_turn_box_asset, 
+  enemy_1_turn_box_rect, enemy_2_turn_box_asset, enemy_2_turn_box_rect) = loading_assets.load_turn_box_assets()
 
 class Character:
 
@@ -21,6 +27,7 @@ class Character:
         self.pos = position
         self.skills = skills 
         self.status = status
+        self.turn = 0
 
     def take_damage(self, amount):
         
@@ -147,6 +154,27 @@ chars_id_and_rects = {
     enemy_2.char_id: enemy_2_rect
 }
 
-char_boxes = loading_assets.get_char_boxes(len(characters))     # creates char_boxes as many as existing chars
+chars_turn_box_items = {
 
-chars_huds = dict(zip(characters, char_boxes))      # creates a dictionary with chars and their huds 
+    Manu.char_id: [manu_turn_box_asset, manu_turn_box_rect], 
+    Ion.char_id: [ion_turn_box_asset, ion_turn_box_rect],
+    Hori.char_id: [hori_turn_box_asset, hori_turn_box_rect],
+    enemy_1.char_id: [enemy_1_turn_box_asset, enemy_1_turn_box_rect],
+    enemy_2.char_id: [enemy_2_turn_box_asset, enemy_2_turn_box_rect]   
+
+    }
+
+def set_icon_order():
+    turn_order = turn_system.Turn_manager.turn_order
+    start_point = (width // 2) - ((len(turn_order) // 2) * 92)
+
+    if len(turn_order) % 2 == 0:
+        for index in turn_order:
+            chars_turn_box_items[turn_order[index]][1].x = 7 + start_point + (index * 92)
+            chars_turn_box_items[turn_order[index]][1].y = 7
+
+    elif len(turn_order) % 2 == 1:
+        for index in turn_order:
+            chars_turn_box_items[turn_order[index]][1].x = 53 + start_point + (index * 92)
+            chars_turn_box_items[turn_order[index]][1].y = 7
+

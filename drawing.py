@@ -1,32 +1,33 @@
-import pygame 
+import pygame
+
+import loading_assets, characters_properties, turn_system
 
 def draw_char_boxes(char_boxes, screen):
     for box in char_boxes:
         screen.blit(box[0], box[1])
 
-def draw_char_box_bars(hud, screen): # [[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width], [s_bar_x, s_bar_y, s_bar_height, s_bar_width, s_bar_max_width]]
-    red = (255, 0, 0)
-    yellow = (255, 255, 0)
-    bars = hud.get_bars()
+def draw_char_turn_order_box_bars(hud, screen):
+    red = (225, 0, 0)
+    bars = hud.get_turn_box_hp_bars()
     for bar in bars:
-        h_bar_x = bar[0][0]
-        h_bar_y = bar[0][1]
-        h_bar_height = bar[0][2]
-        h_bar_width = bar[0][3]
-        s_bar_x = bar[1][0]
-        s_bar_y = bar[1][1]
-        s_bar_height = bar[1][2]
-        s_bar_width = bar[1][3]
+        h_bar_x = bar[0]
+        h_bar_y = bar[1]
+        h_bar_height = bar[2]
+        h_bar_width = bar[3]
         pygame.draw.rect(screen, red, (h_bar_x, h_bar_y, h_bar_width, h_bar_height))
-        pygame.draw.rect(screen, yellow, (s_bar_x, s_bar_y, s_bar_width, s_bar_height))
 
-def draw_h_bar(x, y, bar_width, bar_height, screen):
-    red = (255, 0, 0)
-    pygame.draw.rect(screen, red, (x, y, bar_width, bar_height))
+def draw_turn_boxes(hud, screen):
+    turn_order = turn_system.Turn_manager.turn_order
+    draw_char_turn_order_box_bars(hud, screen)
+    turn_boxes = loading_assets.load_turn_box_assets()
+    draw_char_boxes(turn_boxes, screen)
+    characters_properties.set_icon_order()
+    for char_id in turn_order:
+        icon_asset = characters_properties.chars_turn_box_items[char_id][0]
+        icon_rect = characters_properties.chars_turn_box_items[char_id][1]
+        screen.blit(icon_asset, icon_rect)
+    
 
-def draw_s_bar(x, y, bar_width, bar_height, screen):
-    yellow = (255, 255, 0)
-    pygame.draw.rect(screen, yellow, (x, y, bar_width, bar_height))
 
 def draw_hud_1(screen, icon_box, icon_box_rect, health_bar, health_bar_rect, stamina_bar, stamina_bar_rect):
     screen.blit(icon_box, icon_box_rect)
@@ -68,8 +69,8 @@ def redraw(screen, white, background, background_rect, characters_properties, se
         if character.status in {"Alive"}:
             screen.blit(asset, rect)
 
-    for char_box, char_rect in characters_properties.chars_huds.values():       # draws the hp and stamina bars for each char according to current health compared to max_health
-        screen.blit(char_box, char_rect)
+    for asset, rect in characters_properties.chars_turn_box_items.values():
+        screen.blit(asset, rect)
 
     if selected_char_id != None and active_skill != None:
         draw_text(f"Selected char: {str(selected_char_id)}, HP: {str(characters_properties.characters[selected_char_id].max_health)} and ST: {str(characters_properties.characters[selected_char_id].max_stamina)}",
@@ -85,7 +86,6 @@ def redraw(screen, white, background, background_rect, characters_properties, se
                                                 )
         
     
-
-    draw_char_box_bars(hud, screen)                     # draws the chars boxes on the right of the screen 
+    draw_turn_boxes(hud, screen)                   # draws the chars boxes on the right of the screen 
     
     pygame.display.flip()

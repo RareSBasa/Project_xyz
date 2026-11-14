@@ -1,5 +1,6 @@
 import random 
-from characters_properties import characters 
+import characters_properties 
+
 
 class Turn_manager:
     def __init__(self):
@@ -12,7 +13,7 @@ class Turn_manager:
     def roll_initiative(self):
         self.initiative_rolls.clear()                                 # this clears the "rolls"
         
-        for char_id, character in characters.items():
+        for char_id, character in characters_properties.characters.items():
             if character.status != "Alive":
                 continue
 
@@ -41,7 +42,7 @@ class Turn_manager:
         return self.turn_order
 
     def get_sort_values(self, char_id):                               # 2 (Enemey) , 4 , 1(Friendly), 2 (Friendly), 1 (Enemy) - > 4, 2(Friendly), 2(Enemy), 1(Friendly). 1(Enemy)
-        character = characters[char_id]
+        character = characters_properties.characters[char_id]
         initiative = self.initiative_rolls[char_id]
         speed = character.speed
         if character.team == "Friendly":                              # used for the turn order sorting logic , what to priorities for ex : 
@@ -58,7 +59,8 @@ class Turn_manager:
 
         self.roll_initiative()
         self.create_turn_order()
-
+        
+        
     def get_active_char_id(self):                                     # will be used to select the char that has the turn
         if not self.battle_active:
             return None
@@ -74,6 +76,7 @@ class Turn_manager:
             return None
         self.turn_number += 1
         checked_chars = 0
+        
 
         while checked_chars < len(self.turn_order):                   # used to check if chars are alive, if not they will not be "shown" in the turn order
             
@@ -83,7 +86,7 @@ class Turn_manager:
                 self.current_turn_index = 0
 
             active_char_id = self.turn_order[self.current_turn_index]
-            active_character = characters[active_char_id]
+            active_character = characters_properties.characters[active_char_id]
 
             if active_character.status == "Alive":
                 return
@@ -99,3 +102,8 @@ class Turn_manager:
         self.current_turn_index = 0
         self.turn_number = 0
         self.battle_active = False
+
+def set_turn():
+    for turn_number in range(0, len(Turn_manager.turn_order)):
+        characters_properties.characters[Turn_manager.turn_order[turn_number]].turn = turn_number + 1
+

@@ -1,4 +1,6 @@
-import loading_assets, characters_properties
+import loading_assets, characters_properties, turn_system
+
+screen = width, height = 1920, 1080
 
 max_health = 160.0
 health = 49.0
@@ -39,6 +41,31 @@ def get_bars(): # [[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width
         s_bar_width = set_width(character.stamina, character.max_stamina, s_bar_max_width)
         bars.append([[h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width], [s_bar_x, s_bar_y, s_bar_height, s_bar_width, s_bar_max_width]])
 
+    return bars
+
+def get_turn_box_hp_bars():
+    bars = []
+    turn_order = turn_system.Turn_manager.turn_order
+    h_bar_max_width = 78
+    char_nr = len(turn_order)
+    start_point = (width // 2) - ((char_nr//2) * 92) + 7
+
+    for index in range(0, len(turn_order)):
+        
+        if char_nr % 2 == 0:
+            h_bar_x = start_point + (index * 92)
+            h_bar_y = 99
+            h_bar_height = 8
+            h_bar_width = set_width(characters_properties.characters[turn_order[index]].health, characters_properties.characters[turn_order[index]].max_health, h_bar_max_width)
+            bars.append([h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width])
+
+        if char_nr % 2 == 1:
+            h_bar_x = start_point + (index * 92)  - 46
+            h_bar_y = 99
+            h_bar_height = 8
+            h_bar_width = set_width(characters_properties.characters[turn_order[index]].health, characters_properties.characters[turn_order[index]].max_health, h_bar_max_width)
+            bars.append([h_bar_x, h_bar_y, h_bar_height, h_bar_width, h_bar_max_width])
+    
     return bars
 
 
