@@ -50,7 +50,7 @@ def get_turn_box_hp_bars(turn_manager):
     char_nr = len(turn_order)
     start_point = (width // 2) - ((char_nr//2) * 92) + 7
 
-    for index in range(0, len(turn_order)):
+    for index in range(0, char_nr):
         
         if char_nr % 2 == 0:
             h_bar_x = start_point + (index * 92)

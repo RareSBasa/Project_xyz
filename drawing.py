@@ -19,13 +19,16 @@ def draw_char_turn_order_box_bars(hud, screen, turn_manager):
 def draw_turn_boxes(hud, screen, turn_manager):
     turn_order = turn_manager.turn_order
     draw_char_turn_order_box_bars(hud, screen, turn_manager)
-    turn_boxes = loading_assets.load_turn_box_assets()
-    draw_char_boxes(turn_boxes, screen)
+    turn_box_icons = loading_assets.load_turn_box_assets()
+    turn_boxes = loading_assets.get_turn_boxes(len(turn_order))
+    
     characters_properties.set_icon_order(turn_order)
     for char_id in turn_order:
         icon_asset = characters_properties.chars_turn_box_items[char_id][0]
         icon_rect = characters_properties.chars_turn_box_items[char_id][1]
         screen.blit(icon_asset, icon_rect)
+
+    draw_char_boxes(turn_boxes, screen)
     
 def draw_hud_1(screen, icon_box, icon_box_rect, health_bar, health_bar_rect, stamina_bar, stamina_bar_rect):
     screen.blit(icon_box, icon_box_rect)

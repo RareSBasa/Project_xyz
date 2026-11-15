@@ -169,12 +169,12 @@ def set_icon_order(turn_order):
     start_point = (width // 2) - ((len(turn_order) // 2) * 92)
 
     if len(turn_order) % 2 == 0:
-        for index in turn_order:
+        for index in range (0, len(turn_order)):
             chars_turn_box_items[turn_order[index]][1].x = 7 + start_point + (index * 92)
             chars_turn_box_items[turn_order[index]][1].y = 7
 
     elif len(turn_order) % 2 == 1:
-        for index in turn_order:
-            chars_turn_box_items[turn_order[index]][1].x = 53 + start_point + (index * 92)
+        for index in range (0, len(turn_order)): 
+            chars_turn_box_items[turn_order[index]][1].x = start_point + (index * 92) - 39
             chars_turn_box_items[turn_order[index]][1].y = 7
 
