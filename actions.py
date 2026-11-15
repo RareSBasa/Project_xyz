@@ -29,11 +29,11 @@ def remove_char_from_map(char_id):
 	if map.get(character.pos) == char_id:
 		map[character.pos] = 0
    
-def attack(char_id_attacker, char_id_defender, skill):					# made it so when an attack is initiated it does damage and uses stamina 
+def attack(char_id_attacker, char_id_defender, skill, turn_manager):					# made it so when an attack is initiated it does damage and uses stamina 
 	attacker = characters[char_id_attacker]
 	defender = characters[char_id_defender]
 	if attacker.stamina >= skill["stamina_cost"]:
-		defender.take_damage(skill["damage"])
+		defender.take_damage(skill["damage"], turn_manager)
 		attacker.stamina -= skill["stamina_cost"]
 
 		if defender.status == "Dead":

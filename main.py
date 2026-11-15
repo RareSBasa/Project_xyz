@@ -96,7 +96,7 @@ while True:
 
                                 if target.team != selected_char.team and distance <= active_skill["range"]:                   # asks if it's enemy and if so attacks
 
-                                    actions.attack(selected_char.char_id, target.char_id, active_skill)
+                                    actions.attack(selected_char.char_id, target.char_id, active_skill, turn_manager)
                                     while selected_char.exp >= 100 :
                                         characters_properties.selected_char.level_up()
 

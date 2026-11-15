@@ -29,13 +29,14 @@ class Character:
         self.status = status
         self.turn = 0
 
-    def take_damage(self, amount):
+    def take_damage(self, amount, turn_manager):
         
         self.health = max(0, self.health - amount)
         print(self.health)
 
         if self.health == 0:
-                    self.status = "Dead"
+            self.status = "Dead"
+        turn_manager.turn_order.remove(self.char_id)    
         print("Status: ", self.status)
 
     def level_up(self):

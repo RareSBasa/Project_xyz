@@ -89,8 +89,6 @@ class Turn_manager:
 
             if active_character.status == "Alive":
                 return
-            else:
-                self.turn_order.remove(active_character)
             
             checked_chars += 1
         
