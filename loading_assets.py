@@ -104,4 +104,31 @@ def get_turn_boxes(character_number):
   
     return char_boxes
 
+def get_char_turn(char_id, turn_order):
+    turn = turn_order.index(char_id)
+    char_nr = len(turn_order)
+    start_point = (width // 2) - ((char_nr // 2) * 92)
+
+    if char_nr % 2 == 0:
+        for i in range(0, char_nr):
+            if i == turn:
+                highlight = pygame.image.load(assets_folder / ui_elements_folder / "turn_box_highlight.png")
+                highlight_rect = highlight.get_rect()
+                highlight_rect.y = 114
+                highlight_rect.x = start_point + (i * 92) + 46
+    elif char_nr % 2 == 1:
+        for i in range(0, char_nr):
+            if i == turn:
+                highlight = pygame.image.load(assets_folder / ui_elements_folder / "turn_box_highlight.png")
+                highlight_rect = highlight.get_rect()
+                highlight_rect.y = 114
+                highlight_rect.x = start_point + (i * 92) - 12
+
+    return highlight, highlight_rect
+
+
+
+
+
+
 
