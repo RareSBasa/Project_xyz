@@ -129,6 +129,11 @@ while True:
                 turn_manager.end_turn()
                 selected_char_id = None 
                 active_char_id = turn_manager.get_active_char_id()
+                active_char = characters[active_char_id]
+                if "Bleed" in active_char.status_effect_list:
+                    active_char.take_damage(1, turn_manager)
+                    print(f"The character took bleed damage")
+
                 print(
                     "Active character:",
                     turn_manager.get_active_char_id(),

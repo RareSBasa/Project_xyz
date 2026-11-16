@@ -36,6 +36,10 @@ def attack(char_id_attacker, char_id_defender, skill, turn_manager):					# made 
 		defender.take_damage(skill["damage"], turn_manager)
 		attacker.stamina -= skill["stamina_cost"]
 
+		if skill["status_effect"] == "Bleed":
+			defender.apply_status_effect(skill["status_effect"])
+			print(f"This char: {defender}, has been affliced with the following effect: {defender.status_effect_list}")
+			
 		if defender.status == "Dead":
 			remove_char_from_map(defender.char_id)
 			attacker.exp += 10
