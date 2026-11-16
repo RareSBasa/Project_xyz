@@ -33,7 +33,12 @@ def attack(char_id_attacker, char_id_defender, skill, turn_manager):					# made 
 	attacker = characters[char_id_attacker]
 	defender = characters[char_id_defender]
 	if attacker.stamina >= skill["stamina_cost"]:
-		defender.take_damage(skill["damage"], turn_manager)
+		damage = skill["damage"]
+
+		if defender.braced == True:
+			damage = round(damage * .75)
+	
+		defender.take_damage(damage, turn_manager)
 		attacker.stamina -= skill["stamina_cost"]
 
 		if skill["status_effect"] == "Bleed":
@@ -42,5 +47,12 @@ def attack(char_id_attacker, char_id_defender, skill, turn_manager):					# made 
 			
 		if defender.status == "Dead":
 			remove_char_from_map(defender.char_id)
+			turn_manager.remove_character(defender)
 			attacker.exp += 10
 	print(f"THis char {attacker.char_id}, damages {defender.char_id}")
+
+def brace(char_id):
+	character = characters[char_id]
+
+	if character.braced == False:
+		character.braced = True 

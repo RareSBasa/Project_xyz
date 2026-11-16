@@ -69,28 +69,38 @@ class Turn_manager:
 
         return self.turn_order[self.current_turn_index]
 
+    def remove_character(self, char_id):                              # removes "Dead" chars from the turn order list and the index 
+        if char_id not in self.turn_order:
+            return
+
+        removed_index = self.turn_order.index(char_id)
+        self.turn_order.remove(char_id)
+
+        if removed_index < self.current_turn_index:
+            self.current_turn_index -= 1
+
+        if not self.turn_order:
+            self.end_battle()                                         # ff the list is now empty the battle will be ended 
+            return 
+
+        if self.current_turn_index >= len(self.turn_order):
+            self.current_turn_index = 0
+
     def end_turn(self):                                               # ends turn duhhh...
         if not self.battle_active:
             return None      
         if not self.turn_order:
             return None
+        
         self.round_number += 1
-        checked_chars = 0
+        self.current_turn_index += 1
 
-        while checked_chars < len(self.turn_order):                   # used to check if chars are alive, if not they will not be "shown" in the turn order
-            
-            self.current_turn_index += 1
+        if self.current_turn_index >= len(self.turn_order):
+            self.current_turn_index = 0
 
-            if self.current_turn_index >= len(self.turn_order):
-                self.current_turn_index = 0
-
-            active_char_id = self.turn_order[self.current_turn_index]
-            active_character = characters_properties.characters[active_char_id]
-
-            if active_character.status == "Alive":
-                return
-            
-            checked_chars += 1
+        active_char_id = self.turn_order[self.current_turn_index]
+        active_character = characters_properties.characters[active_char_id]
+        active_character.brace = False
         
         self.end_battle()
 

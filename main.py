@@ -68,7 +68,12 @@ while True:
             if event.button == 1 and end_turn_button.hovering():
                 turn_manager.end_turn()
                 selected_char_id = None
-                active_char_id = turn_manager.get_active_char_id()
+                # active_char_id = turn_manager.get_active_char_id()
+                # active_char = characters[active_char_id]
+                                                                            # gives error needs to be fixed, this shouldn't be here :O 
+                # if "Bleed" in active_char.status_effect_list:
+                #     active_char.take_damage(2, turn_manager)
+                #     print(f"The character took bleed damage")
                 print(
                     "Active character:",                                    # If you click on the end turn button, it will end the turn
                     active_char_id,

@@ -28,6 +28,7 @@ class Character:
         self.skills = skills 
         self.status = status
         self.status_effect_list = []
+        self.braced = False 
         self.turn = 0
 
     def take_damage(self, amount, turn_manager):
@@ -73,7 +74,6 @@ Manu = Character(
         {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1, "status_effect": "Bleed"}
     ],
     status = "Alive"
-
 )
 Hori = Character(
     char_id = "pc_archer",
@@ -108,7 +108,6 @@ Ion = Character(
     ],
     status = "Alive"
 )
-
 enemy_1 = Character(
     char_id = "en_swordsman_1",
     name = "Marcus",
