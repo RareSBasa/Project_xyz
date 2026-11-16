@@ -27,6 +27,7 @@ class Character:
         self.pos = position
         self.skills = skills 
         self.status = status
+        self.status_effect_list = []
         self.turn = 0
 
     def take_damage(self, amount, turn_manager):
@@ -38,6 +39,18 @@ class Character:
             self.status = "Dead"
             turn_manager.turn_order.remove(self.char_id)    
             print("Status: ", self.status)
+
+    def receive_healing(self, amount):
+        self.health = max(0, self.health + amount)
+
+        if self.status == "Wounded" and self.health > 0:
+            self.status = "Alive"
+
+    def apply_status_effect(self, status_effect):
+        self.status_effect_list.append(status_effect)
+
+    def remove_status_effect(self, status_effect):
+        self.status_effect_list.remove(status_effect)
 
     def level_up(self):
         self.max_health *= 1.05
@@ -56,8 +69,8 @@ Manu = Character(
     speed = 2,
     position = (1, 1),
     skills = [
-        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
-        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
+        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1, "status_effect": None},
+        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1, "status_effect": "Bleed"}
     ],
     status = "Alive"
 
@@ -73,8 +86,8 @@ Hori = Character(
     speed = 3,
     position = (2, 1),
     skills = [
-        {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3},
-        {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4}
+        {"name": "Arrow_Shot", "stamina_cost": 5, "damage": 12, "range": 3, "status_effect": None},
+        {"name": "Precision_Shot", "stamina_cost": 10, "damage": 25, "range": 4, "status_effect": None}
     ],
     status = "Alive"
 
@@ -90,8 +103,8 @@ Ion = Character(
     speed = 1,
     position = (3, 1),
     skills = [
-        {"name": "Spear Thrust", "stamina_cost": 3, "damage": 10, "range": 2},
-        {"name": "Rod Boink", "stamina_cost": 4, "damage": 5, "range": 2}
+        {"name": "Spear Thrust", "stamina_cost": 3, "damage": 10, "range": 2, "status_effect": None},
+        {"name": "Rod Boink", "stamina_cost": 4, "damage": 5, "range": 2, "status_effect": "Stun"}
     ],
     status = "Alive"
 )
@@ -107,8 +120,8 @@ enemy_1 = Character(
     speed = 1,
     position = (1, 5),
     skills = [
-        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
-        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
+        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1, "status_effect": None},
+        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1, "status_effect": None}
     ],
     status = "Alive"
 )
@@ -123,8 +136,8 @@ enemy_2 = Character(
     speed = 1,
     position = (2, 5),
     skills = [
-        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1},
-        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1}
+        {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1, "status_effect": None},
+        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1, "status_effect": "Bleed"}
     ],
     status = "Alive"
 )
