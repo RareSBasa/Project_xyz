@@ -1,6 +1,6 @@
 import pygame
 
-import loading_assets, characters_properties
+import loading_assets, characters_properties, buttons
 
 def draw_char_boxes(char_boxes, screen):
     for box in char_boxes:
@@ -34,8 +34,7 @@ def draw_turn_boxes(hud, screen, turn_manager):
 
     draw_char_boxes(turn_boxes, screen)
     draw_turn_box_highlight(screen, turn_manager)
-    
-    
+      
 def draw_hud_1(screen, icon_box, icon_box_rect, health_bar, health_bar_rect, stamina_bar, stamina_bar_rect):
     screen.blit(icon_box, icon_box_rect)
     screen.blit(health_bar, health_bar_rect)
@@ -59,7 +58,7 @@ def draw_selected_highlight(char_pos, selected_highlight_rect, screen, selected_
 
 def redraw(screen, white, background, background_rect, characters_properties, selected_char_id, active_skill, select,
         char_pos, hover, mouse_pos, font, selected_highlight, grid, selected_highlight_rect, highlight, highlight_rect,
-        hud, turn_manager ):
+        hud, turn_manager, end_turn_button):
     
     screen.fill(white)
     screen.blit(background, background_rect)
@@ -88,8 +87,12 @@ def redraw(screen, white, background, background_rect, characters_properties, se
         draw_text(f"Character's LVL: {str(characters_properties.characters[selected_char_id].level)}",
                                                 font, white, 10, 128, screen
                                                 )
-        
     
+    end_turn_button.draw(screen)
+
+    if end_turn_button.hovering():
+
+        end_turn_button.draw_hover(screen)
     draw_turn_boxes(hud, screen, turn_manager)                   # draws the chars boxes on the right of the screen 
     
     pygame.display.flip()

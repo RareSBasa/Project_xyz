@@ -1,4 +1,4 @@
-import pygame, sys, characters_properties, loading_assets, hud, actions, drawing, turn_system 
+import pygame, sys, characters_properties, loading_assets, hud, actions, drawing, turn_system, buttons
 from grid import detect_pos, grid_create, map, grid
 
 pygame.init()
@@ -18,6 +18,8 @@ _, _, _, _, _, _, _, _) = loading_assets.load_game_objects()
 (icon_box, icon_box_rect, health_bar, health_bar_rect, health_bar_lines,
 health_bar_lines_rect, stamina_bar, stamina_bar_rect, stamina_bar_lines, stamina_bar_lines_rect,
 highlight, highlight_rect, selected_highlight, selected_highlight_rect) = loading_assets.load_hud_objects()
+
+end_turn_button = buttons.end_turn_button          # init end_turn_button
 
 characters = characters_properties.characters
 
@@ -63,6 +65,18 @@ while True:
     ### Back-End stuff \/
         
         if event.type == pygame.MOUSEBUTTONUP:                              #  - - - If the click button is being held, the program will take only one click and IGNORES the rest.
+            if event.button == 1 and end_turn_button.hovering():
+                turn_manager.end_turn()
+                selected_char_id = None
+                active_char_id = turn_manager.get_active_char_id()
+                print(
+                    "Active character:",                                    # If you click on the end turn button, it will end the turn
+                    active_char_id,
+                    "| Turn:",
+                    turn_manager.round_number
+                )
+                print(turn_manager.turn_order)
+
             if 0 not in detect_pos(event.pos, grid):
                 if event.button == 1:                                       # Left Click for select and attack(for now) 
                     print(str(detect_pos(event.pos, grid)))
@@ -124,18 +138,6 @@ while True:
                     active_skill = selected_char.skills[1]
                     print(active_skill["name"])      
 
-            
-            if event.key == pygame.K_RETURN:
-                turn_manager.end_turn()
-                selected_char_id = None 
-                active_char_id = turn_manager.get_active_char_id()
-                print(
-                    "Active character:",
-                    turn_manager.get_active_char_id(),
-                    "| Turn:",
-                    turn_manager.round_number
-                )
-                print (turn_manager.turn_order)
                         
     ### Front - End stuff \/
 
@@ -155,4 +157,4 @@ while True:
 
     drawing.redraw(screen, white, background, background_rect, characters_properties, selected_char_id, active_skill, select,
                    char_pos, hover, mouse_pos, font, selected_highlight, grid, selected_highlight_rect, highlight, highlight_rect,
-                   hud, turn_manager)
+                   hud, turn_manager, end_turn_button)

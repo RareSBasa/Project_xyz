@@ -84,8 +84,6 @@ def load_turn_box_assets():
     return ([manu_turn_box_asset, manu_turn_box_rect], [ion_turn_box_asset, ion_turn_box_rect], [hori_turn_box_asset, hori_turn_box_rect], [enemy_1_turn_box_asset, enemy_1_turn_box_rect],
              [enemy_2_turn_box_asset, enemy_2_turn_box_rect])
 
-
-
 def get_turn_boxes(character_number):
     char_boxes = []
     start_point = (width // 2) - ((character_number // 2) * 92)
