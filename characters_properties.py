@@ -36,8 +36,8 @@ class Character:
 
         if self.health == 0:
             self.status = "Dead"
-        turn_manager.turn_order.remove(self.char_id)    
-        print("Status: ", self.status)
+            turn_manager.turn_order.remove(self.char_id)    
+            print("Status: ", self.status)
 
     def level_up(self):
         self.max_health *= 1.05

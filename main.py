@@ -44,6 +44,7 @@ def try_things(): # Test things using this function
 try_things()
 hover = False
 selected_char_id = None
+selected_char = None
 active_skill = None
 select = False
 char_pos = ()
@@ -80,12 +81,13 @@ while True:
                     
                                 if character.team == "Friendly":                        # This selects Friendly chars and their 1st skill, in order to move or attack 
                                     selected_char_id = occupant_id
+                                    selected_char = character
                                     active_skill = character.skills[0]            
                                     print(f"Selected char is friendly: {character.char_id}")
                             
                         else:
-                            selected_char_id = occupant_id
-                            selected_char = character
+
+                            
                             if occupant_id == 0 and selected_char != None:                                         # asks if tile is empty , 0 means no char is on it 
                                 if selected_char.stamina > 0:
                                     actions.move(selected_char.char_id, selected_char.pos, clicked_pos, grid)
@@ -100,9 +102,6 @@ while True:
                                     while selected_char.exp >= 100 :
                                         characters_properties.selected_char.level_up()
 
-                                else:                                                   # if not it's friendly and selects it instead 
-                                    selected_char_id = occupant_id 
-                                    active_skill = target.skills[0]
                 if event.button == 2:
                     selected_char_id = None                     #Right click to Stop char selection
                     
