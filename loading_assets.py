@@ -103,6 +103,18 @@ def get_turn_boxes(character_number):
     return char_boxes
 
 def get_char_turn(char_id, turn_order):
+    highlight = None 
+    highlight_rect = None 
+    
+    if char_id is None:
+        return None, None
+
+    if not turn_order:
+        return None, None
+
+    if char_id not in turn_order:
+        return None, None                                   # this ifs are used in order to validate the values before indexing, otherwise it crashes if ex: char_id = None 
+    
     turn = turn_order.index(char_id)
     char_nr = len(turn_order)
     start_point = (width // 2) - ((char_nr // 2) * 92)

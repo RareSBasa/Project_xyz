@@ -92,7 +92,7 @@ class Turn_manager:
         if not self.turn_order:
             return None
         
-        self.round_number += 1
+        self.round_number += 1                                        # RARES need to do better with naming some of these, silly Rares it 
         self.current_turn_index += 1
 
         if self.current_turn_index >= len(self.turn_order):
@@ -100,15 +100,14 @@ class Turn_manager:
 
         active_char_id = self.turn_order[self.current_turn_index]
         active_character = characters_properties.characters[active_char_id]
-        active_character.brace = False
+        active_character.braced = False
         
-        self.end_battle()
 
     def end_battle(self):                   # ends the battle and resets turn order, initiation rolls, current turn index, turn number in order to be re initiated when next battle starts
         self.turn_order.clear()
         self.initiative_rolls.clear()
         self.current_turn_index = 0
-        self.turn_number = 0
+        self.round_number = 0
         self.battle_active = False
 
 

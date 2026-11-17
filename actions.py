@@ -47,7 +47,7 @@ def attack(char_id_attacker, char_id_defender, skill, turn_manager):					# made 
 			
 		if defender.status == "Dead":
 			remove_char_from_map(defender.char_id)
-			turn_manager.remove_character(defender)
+			turn_manager.remove_character(defender.char_id)
 			attacker.exp += 10
 	print(f"THis char {attacker.char_id}, damages {defender.char_id}")
 

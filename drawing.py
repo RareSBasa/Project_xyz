@@ -18,6 +18,10 @@ def draw_char_turn_order_box_bars(hud, screen, turn_manager):
 
 def draw_turn_box_highlight(screen, turn_manager):
     highlight, highlight_rect = loading_assets.get_char_turn(turn_manager.get_active_char_id(), turn_manager.turn_order)
+
+    if highlight is None or highlight_rect is None:
+        return
+    
     screen.blit(highlight, highlight_rect)
 
 def draw_turn_boxes(hud, screen, turn_manager):
@@ -94,5 +98,7 @@ def redraw(screen, white, background, background_rect, characters_properties, se
 
         end_turn_button.draw_hover(screen)
     draw_turn_boxes(hud, screen, turn_manager)                   # draws the chars boxes on the right of the screen 
+    # if turn_manager.battle_active and turn_manager.turn_order:
+    #     draw_turn_box_highlight(screen, turn_manager)
     
     pygame.display.flip()

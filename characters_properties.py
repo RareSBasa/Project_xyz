@@ -38,7 +38,6 @@ class Character:
 
         if self.health == 0:
             self.status = "Dead"
-            turn_manager.turn_order.remove(self.char_id)    
             print("Status: ", self.status)
 
     def receive_healing(self, amount):
