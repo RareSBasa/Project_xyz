@@ -70,7 +70,8 @@ Manu = Character(
     position = (1, 1),
     skills = [
         {"name": "Thrust", "stamina_cost": 3, "damage": 10, "range": 1, "status_effect": None},
-        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1, "status_effect": "Bleed"}
+        {"name": "Slash", "stamina_cost": 2, "damage": 3, "range": 1, "status_effect": "Bleed"},
+        {"name": "Brace", "stamina_cost": 4, "damage": 0, "range": 0, "status_effect": "Braced" }
     ],
     status = "Alive"
 )

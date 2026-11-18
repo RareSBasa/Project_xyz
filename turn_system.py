@@ -100,7 +100,9 @@ class Turn_manager:
 
         active_char_id = self.turn_order[self.current_turn_index]
         active_character = characters_properties.characters[active_char_id]
-        active_character.braced = False
+        if "Braced" in active_character.status_effect_list:
+            active_character.remove_status_effect("Braced")
+            active_character.braced = False
         
 
     def end_battle(self):                   # ends the battle and resets turn order, initiation rolls, current turn index, turn number in order to be re initiated when next battle starts

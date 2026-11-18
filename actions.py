@@ -35,15 +35,18 @@ def attack(char_id_attacker, char_id_defender, skill, turn_manager):					# made 
 	if attacker.stamina >= skill["stamina_cost"]:
 		damage = skill["damage"]
 
-		if defender.braced == True:
+		if defender.braced == True and damage > 0:
 			damage = round(damage * .75)
 	
 		defender.take_damage(damage, turn_manager)
 		attacker.stamina -= skill["stamina_cost"]
 
-		if skill["status_effect"] == "Bleed":
-			defender.apply_status_effect(skill["status_effect"])
-			print(f"This char: {defender}, has been affliced with the following effect: {defender.status_effect_list}")
+		if skill["status_effect"] != None and skill["status_effect"] not in defender.status_effect_list:
+			
+				defender.apply_status_effect(skill["status_effect"])
+				if "Braced" in defender.status_effect_list:
+					brace(defender.char_id)
+				print(f"This char: {defender}, has been affliced with the following effect: {defender.status_effect_list}")
 			
 		if defender.status == "Dead":
 			remove_char_from_map(defender.char_id)

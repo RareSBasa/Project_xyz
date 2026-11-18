@@ -117,14 +117,14 @@ while True:
                                 target = characters[occupant_id]
                                 distance = abs(selected_char.pos[0] - target.pos[0]) + abs(selected_char.pos[1] - target.pos[1])    # the distance between selected char and the enemy you want to attack 
 
-                                if target.team != selected_char.team and distance <= active_skill["range"]:                   # asks if it's enemy and if so attacks
+                                if distance <= active_skill["range"]:                   # asks if it's enemy and if so attacks
 
                                     actions.attack(selected_char.char_id, target.char_id, active_skill, turn_manager)
                                     while selected_char.exp >= 100 :
                                         characters_properties.selected_char.level_up()
 
-                if event.button == 2:
-                    selected_char_id = None                     #Right click to Stop char selection
+                        if event.button == 2:
+                            selected_char_id = None                     #Right click to Stop char selection
                     
             else:
                 selected_char_id = None
@@ -143,7 +143,11 @@ while True:
                 
                 elif event.key == pygame.K_2:
                     active_skill = selected_char.skills[1]
-                    print(active_skill["name"])      
+                    print(active_skill["name"])
+
+                elif event.key == pygame.K_3:
+                    active_skill = selected_char.skills[2]
+                    print(active_skill["name"])       
 
                         
     ### Front - End stuff \/

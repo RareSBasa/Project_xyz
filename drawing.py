@@ -86,12 +86,17 @@ def redraw(screen, white, background, background_rect, characters_properties, se
         draw_text(f"Active skill: {str(active_skill)}", font, white, 10, 64, screen)
 
         draw_text(f"Character's EXP: {str(characters_properties.characters[selected_char_id].exp)}",
-                                        font, white, 10, 96, screen
-                                        )
+                    font, white, 10, 96, screen
+                )
         draw_text(f"Character's LVL: {str(characters_properties.characters[selected_char_id].level)}",
-                                                font, white, 10, 128, screen
-                                                )
-    
+                    font, white, 10, 128, screen
+                )
+        draw_text(f"Character's status effects list: {str(characters_properties.characters[selected_char_id].status_effect_list)}",
+                    font, white, 10, 160, screen
+                  )
+        draw_text(f"Manu's status effects list: {str(characters_properties.characters["pc_swordsman"].status_effect_list)}",
+                    font, white, 10, 192, screen
+                  )
     end_turn_button.draw(screen)
 
     if end_turn_button.hovering():
